@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doom Casters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
+            color: #d4af37;
+            font-family: 'Press Start 2P', monospace;
+            min-height: 100vh;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+        }
+
+        .title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #d4af37;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .scroll-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .container {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .number-box {
+            background: linear-gradient(145deg, #3d2817, #2a1b10);
+            border: 3px solid #8b4513;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 160px;
+            box-shadow: 
+                0 8px 16px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(212, 175, 55, 0.2);
+            position: relative;
+            flex-shrink: 1;
+        }
+
+        .number-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, #8b4513, #d4af37);
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .label {
+            font-size: 14px;
+            color: #cd853f;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .number-display {
+            font-size: 36px;
+            color: #ffd700;
+            margin-bottom: 25px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-weight: 600;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .button {
+            background: linear-gradient(145deg, #8b4513, #654321);
+            border: 2px solid #a0522d;
+            color: #f5deb3;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            font-weight: normal;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .button:hover {
+            background: linear-gradient(145deg, #a0522d, #8b4513);
+            border-color: #d4af37;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .button:active {
+            transform: translateY(1px);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .button.add { 
+            border-color: #228b22; 
+            background: linear-gradient(145deg, #556b2f, #3d5016);
+        }
+        .button.add:hover { 
+            background: linear-gradient(145deg, #6b8e23, #556b2f);
+            color: #f0fff0;
+        }
+
+        .button.subtract { 
+            border-color: #8b0000; 
+            background: linear-gradient(145deg, #800000, #5c0000);
+        }
+        .button.subtract:hover { 
+            background: linear-gradient(145deg, #a00000, #800000);
+            color: #ffe4e1;
+        }
+
+        .button.multiply { 
+            border-color: #ff8c00; 
+            background: linear-gradient(145deg, #b8860b, #8b6914);
+        }
+        .button.multiply:hover { 
+            background: linear-gradient(145deg, #daa520, #b8860b);
+            color: #fffaf0;
+        }
+
+        .button.clear { 
+            border-color: #4b0082; 
+            background: linear-gradient(145deg, #483d8b, #2f2f4f);
+        }
+        .button.clear:hover { 
+            background: linear-gradient(145deg, #6a5acd, #483d8b);
+            color: #f5f5dc;
+        }
+
+        .total-area {
+            border-color: #d4af37;
+            background: linear-gradient(145deg, #4a3b20, #3d2f18);
+        }
+
+        .total-area::before {
+            opacity: 0.6;
+        }
+
+        .total-area .number-display {
+            color: #ffd700;
+            font-size: 40px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(145deg, #8b4513, #654321);
+            border: 2px solid #a0522d;
+            color: #f5deb3;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(145deg, #a0522d, #8b4513);
+            border-color: #d4af37;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button:active {
+            transform: translateY(1px);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) and (orientation: portrait) {
+            .back-button {
+                top: 15px;
+                left: 15px;
+                font-size: 8px;
+                padding: 10px 12px;
+            }
+            
+            body {
+                transform: rotate(90deg);
+                transform-origin: center center;
+                width: 100vh;
+                height: 100vw;
+                position: fixed;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .title {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+            
+            .scroll-container {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .container {
+                gap: 8px;
+                padding: 10px;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .number-box {
+                width: 100px;
+                padding: 10px;
+            }
+            
+            .number-display {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+            
+            .button {
+                padding: 6px 8px;
+                font-size: 5px;
+            }
+        }
+
+        @media (max-width: 768px) and (orientation: landscape) {
+            .back-button {
+                top: 10px;
+                left: 10px;
+                font-size: 7px;
+                padding: 8px 10px;
+            }
+            
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+            }
+            
+            .title {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            
+            .scroll-container {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .container {
+                gap: 6px;
+                padding: 5px;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .number-box {
+                width: 90px;
+                padding: 8px;
+            }
+            
+            .number-display {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+            
+            .button {
+                padding: 4px 6px;
+                font-size: 5px;
+                gap: 4px;
+            }
+        }
+
+        .total-area .label {
+            color: #ffd700;
+        }
+
+        /* Decorative elements */
+        .scroll-container::before {
+            display: none;
+        }
+
+        .scroll-container::after {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">← Back</button>
+    
+    <h1 class="title">DOOM CASTERS</h1>
+    
+    <div class="scroll-container">
+        <div class="container">
+            <div class="number-box">
+                <div class="label">Spell 1</div>
+                <div class="number-display" id="number-0">0</div>
+                <div class="buttons">
+                    <button class="button add" onclick="addOne(0)">+1</button>
+                    <button class="button add" onclick="addThree(0)">+3</button>
+                    <button class="button subtract" onclick="subtractOne(0)">-1</button>
+                    <button class="button multiply" onclick="multiplyTwo(0)">x2</button>
+                    <button class="button clear" onclick="clearNumber(0)">Clear</button>
+                </div>
+            </div>
+
+            <div class="number-box">
+                <div class="label">Spell 2</div>
+                <div class="number-display" id="number-1">0</div>
+                <div class="buttons">
+                    <button class="button add" onclick="addOne(1)">+1</button>
+                    <button class="button add" onclick="addThree(1)">+3</button>
+                    <button class="button subtract" onclick="subtractOne(1)">-1</button>
+                    <button class="button multiply" onclick="multiplyTwo(1)">x2</button>
+                    <button class="button clear" onclick="clearNumber(1)">Clear</button>
+                </div>
+            </div>
+
+            <div class="number-box">
+                <div class="label">Spell 3</div>
+                <div class="number-display" id="number-2">0</div>
+                <div class="buttons">
+                    <button class="button add" onclick="addOne(2)">+1</button>
+                    <button class="button add" onclick="addThree(2)">+3</button>
+                    <button class="button subtract" onclick="subtractOne(2)">-1</button>
+                    <button class="button multiply" onclick="multiplyTwo(2)">x2</button>
+                    <button class="button clear" onclick="clearNumber(2)">Clear</button>
+                </div>
+            </div>
+
+            <div class="number-box">
+                <div class="label">Spell 4</div>
+                <div class="number-display" id="number-3">0</div>
+                <div class="buttons">
+                    <button class="button add" onclick="addOne(3)">+1</button>
+                    <button class="button add" onclick="addThree(3)">+3</button>
+                    <button class="button subtract" onclick="subtractOne(3)">-1</button>
+                    <button class="button multiply" onclick="multiplyTwo(3)">x2</button>
+                    <button class="button clear" onclick="clearNumber(3)">Clear</button>
+                </div>
+            </div>
+
+            <div class="number-box">
+                <div class="label">Spell 5</div>
+                <div class="number-display" id="number-4">0</div>
+                <div class="buttons">
+                    <button class="button add" onclick="addOne(4)">+1</button>
+                    <button class="button add" onclick="addThree(4)">+3</button>
+                    <button class="button subtract" onclick="subtractOne(4)">-1</button>
+                    <button class="button multiply" onclick="multiplyTwo(4)">x2</button>
+                    <button class="button clear" onclick="clearNumber(4)">Clear</button>
+                </div>
+            </div>
+
+            <div class="number-box total-area">
+                <div class="label">End Game</div>
+                <div class="number-display" id="number-5">0</div>
+                <div class="buttons">
+                    <button class="button add" onclick="addOne(5)">+1</button>
+                    <button class="button add" onclick="addThree(5)">+3</button>
+                    <button class="button subtract" onclick="subtractOne(5)">-1</button>
+                    <button class="button multiply" onclick="multiplyTwo(5)">x2</button>
+                    <button class="button clear" onclick="clearNumber(5)">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store the current values
+        let numbers = [0, 0, 0, 0, 0, 0];
+
+        function updateDisplay(index) {
+            document.getElementById(`number-${index}`).textContent = numbers[index];
+        }
+
+        function addOne(index) {
+            numbers[index] += 1;
+            updateDisplay(index);
+            addButtonEffect(event.target);
+        }
+
+        function addThree(index) {
+            numbers[index] += 3;
+            updateDisplay(index);
+            addButtonEffect(event.target);
+        }
+
+        function subtractOne(index) {
+            numbers[index] -= 1;
+            updateDisplay(index);
+            addButtonEffect(event.target);
+        }
+
+        function multiplyTwo(index) {
+            numbers[index] *= 2;
+            updateDisplay(index);
+            addButtonEffect(event.target);
+        }
+
+        function clearNumber(index) {
+            numbers[index] = 0;
+            updateDisplay(index);
+            addButtonEffect(event.target);
+        }
+
+        function addButtonEffect(button) {
+            button.style.transform = 'translateY(2px) scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+            }, 150);
+        }
+
+        function goBack() {
+            // Try to go back in browser history first
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // If no history, try to navigate to common main page URLs
+                const possibleMainPages = ['/', '/index.html', '/main.html', '/home.html'];
+                
+                for (let page of possibleMainPages) {
+                    try {
+                        window.location.href = page;
+                        break;
+                    } catch (e) {
+                        continue;
+                    }
+                }
+                
+                // If all else fails, reload the current page
+                window.location.reload();
+            }
+        }
+
+        // Remove all scrolling functionality since we removed scrollbars
+        // Smooth scrolling with mouse wheel - REMOVED
+        // Add touch scroll momentum for mobile - REMOVED
+    </script>
+</body>
+</html>

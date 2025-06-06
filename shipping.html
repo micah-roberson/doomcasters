@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Info - DoomCasters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+            --accent-bg: #2a2a2a;
+            --text-primary: #f4e8d0;
+            --text-secondary: #ccc;
+            --text-muted: #888;
+            --border-color: #444;
+            --accent-color: #666;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .header {
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+        .content {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 3rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: var(--accent-bg);
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color);
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .info-box {
+            background: rgba(60, 120, 180, 0.1);
+            border-left: 3px solid #3c78b4;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .shipping-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--accent-bg);
+        }
+
+        .shipping-table th,
+        .shipping-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .shipping-table th {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .shipping-table td {
+            color: var(--text-secondary);
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .tracking-box {
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .tracking-input {
+            padding: 0.5rem;
+            margin: 0.5rem;
+            border: 1px solid var(--border-color);
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .tracking-btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .content {
+                padding: 2rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .shipping-table {
+                font-size: 0.9rem;
+            }
+
+            .shipping-table th,
+            .shipping-table td {
+                padding: 0.5rem;
+            }
+
+            .tracking-input {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="pixel-font">SHIPPING INFO</h1>
+        <p>Delivering darkness to your doorstep</p>
+    </div>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
+        <div class="content">
+            <p class="last-updated">Last Updated: January 2025</p>
+
+            <h2>Shipping Overview</h2>
+            <p>Mid u Studios ships DoomCasters products worldwide. We work with reliable carriers to ensure your dark magic arrives safely and on time. All orders are carefully packaged to prevent damage during transit.</p>
+
+            <div class="highlight">
+                <p><strong>Quick Info:</strong> Free shipping on orders over $75 in the US, worldwide shipping available, tracking included on all orders.</p>
+            </div>
+
+            <h2>Shipping Rates & Times</h2>
+            <h3>United States</h3>
+            <table class="shipping-table">
+                <thead>
+                    <tr>
+                        <th>Shipping Method</th>
+                        <th>Cost</th>
+                        <th>Delivery Time</th>
+                        <th>Tracking</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Standard Shipping</td>
+                        <td>$5.99 (Free over $75)</td>
+                        <td>5-7 business days</td>
+                        <td>✓ Included</td>
+                    </tr>
+                    <tr>
+                        <td>Expedited Shipping</td>
+                        <td>$12.99</td>
+                        <td>2-3 business days</td>
+                        <td>✓ Included</td>
+                    </tr>
+                    <tr>
+                        <td>Express Shipping</td>
+                        <td>$24.99</td>
+                        <td>1-2 business days</td>
+                        <td>✓ Included</td>
+                    </tr>
+                    <tr>
+                        <td>Overnight Shipping</td>
+                        <td>$39.99</td>
+                        <td>Next business day</td>
+                        <td>✓ Included</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Canada</h3>
+            <table class="shipping-table">
+                <thead>
+                    <tr>
+                        <th>Shipping Method</th>
+                        <th>Cost</th>
+                        <th>Delivery Time</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Standard International</td>
+                        <td>$15.99</td>
+                        <td>7-14 business days</td>
+                        <td>Duties/taxes may apply</td>
+                    </tr>
+                    <tr>
+                        <td>Express International</td>
+                        <td>$35.99</td>
+                        <td>3-5 business days</td>
+                        <td>Expedited customs processing</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>International (Worldwide)</h3>
+            <table class="shipping-table">
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Standard Cost</th>
+                        <th>Express Cost</th>
+                        <th>Delivery Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Europe (EU)</td>
+                        <td>$19.99</td>
+                        <td>$45.99</td>
+                        <td>10-21 / 5-8 days</td>
+                    </tr>
+                    <tr>
+                        <td>United Kingdom</td>
+                        <td>$17.99</td>
+                        <td>$42.99</td>
+                        <td>8-18 / 4-7 days</td>
+                    </tr>
+                    <tr>
+                        <td>Australia/New Zealand</td>
+                        <td>$24.99</td>
+                        <td>$54.99</td>
+                        <td>12-25 / 6-10 days</td>
+                    </tr>
+                    <tr>
+                        <td>Asia (Japan, South Korea)</td>
+                        <td>$22.99</td>
+                        <td>$49.99</td>
+                        <td>10-20 / 5-9 days</td>
+                    </tr>
+                    <tr>
+                        <td>Other Countries</td>
+                        <td>$29.99</td>
+                        <td>$64.99</td>
+                        <td>15-30 / 8-15 days</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box">
+                <p><strong>International Shipping Note:</strong> Delivery times are estimates and may vary due to customs processing. Customers are responsible for any applicable duties, taxes, or customs fees.</p>
+            </div>
+
+            <h2>Kickstarter Fulfillment</h2>
+            <h3>Timeline</h3>
+            <ul>
+                <li><strong>Campaign End:</strong> Survey sent within 2 weeks</li>
+                <li><strong>Manufacturing:</strong> 4-6 months production time</li>
+                <li><strong>Shipping Begins:</strong> Backers notified via Kickstarter update</li>
+                <li><strong>Delivery:</strong> 2-4 weeks after shipping begins</li>
+            </ul>
+
+            <h3>Backer Surveys</h3>
+            <ul>
+                <li>Sent via BackerKit or Kickstarter messaging</li>
+                <li>Must be completed to receive rewards</li>
+                <li>Address changes accepted until manufacturing begins</li>
+                <li>Add-ons and upgrades available in survey</li>
+            </ul>
+
+            <h3>Kickstarter Shipping Costs</h3>
+            <p>Shipping costs for Kickstarter backers are typically included in pledge levels for domestic shipping. International backers may need to pay additional shipping fees through the backer survey.</p>
+
+            <h2>Order Processing</h2>
+            <h3>Processing Times</h3>
+            <ul>
+                <li><strong>In-Stock Items:</strong> 1-2 business days</li>
+                <li><strong>Pre-Orders:</strong> Ship on or before release date</li>
+                <li><strong>Custom Orders:</strong> 2-3 weeks processing</li>
+                <li><strong>Bulk Orders (10+ items):</strong> 3-5 business days</li>
+            </ul>
+
+            <h3>Order Cut-Off Times</h3>
+            <ul>
+                <li><strong>Standard Processing:</strong> Orders placed by 2 PM EST ship same day</li>
+                <li><strong>Weekend Orders:</strong> Processed on next business day</li>
+                <li><strong>Holiday Orders:</strong> May experience delays during peak seasons</li>
+            </ul>
+
+            <h2>Packaging & Protection</h2>
+            <h3>Standard Packaging</h3>
+            <ul>
+                <li><strong>Card Games:</strong> Bubble wrap and rigid mailers</li>
+                <li><strong>Accessories:</strong> Padded envelopes or boxes</li>
+                <li><strong>Large Orders:</strong> Double-boxed with padding</li>
+                <li><strong>Fragile Items:</strong> Extra protective packaging</li>
+            </ul>
+
+            <h3>Eco-Friendly Options</h3>
+            <ul>
+                <li>Recyclable packaging materials when possible</li>
+                <li>Minimal packaging option available at checkout</li>
+                <li>Biodegradable packing peanuts and padding</li>
+                <li>Consolidated shipping for multiple orders</li>
+            </ul>
+
+            <h2>Tracking Your Order</h2>
+            <p>All orders include tracking information sent to your email address once the package ships.</p>
+
+            <div class="tracking-box">
+                <h3>Track Your Package</h3>
+                <p>Enter your tracking number below:</p>
+                <input type="text" class="tracking-input" placeholder="Tracking Number" id="trackingInput">
+                <button class="tracking-btn" onclick="trackPackage()">TRACK</button>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                    Tracking numbers are sent via email when your order ships
+                </p>
+            </div>
+
+            <h3>Tracking Partners</h3>
+            <ul>
+                <li><strong>US Domestic:</strong> USPS, UPS, FedEx</li>
+                <li><strong>International:</strong> DHL Express, FedEx International</li>
+                <li><strong>Economy International:</strong> USPS International</li>
+            </ul>
+
+            <h2>Address Requirements</h2>
+            <h3>Domestic Addresses</h3>
+            <ul>
+                <li>Complete street address (no P.O. Boxes for express shipping)</li>
+                <li>Apartment/suite number if applicable</li>
+                <li>Valid city, state, and ZIP code</li>
+                <li>Phone number for delivery coordination</li>
+            </ul>
+
+            <h3>International Addresses</h3>
+            <ul>
+                <li>Complete address in English or local language</li>
+                <li>Country name in English</li>
+                <li>Postal code in correct format</li>
+                <li>Phone number including country code</li>
+            </ul>
+
+            <h3>Special Delivery Instructions</h3>
+            <ul>
+                <li>Leave at door (signature waiver required)</li>
+                <li>Deliver to office/workplace</li>
+                <li>Hold at shipping facility for pickup</li>
+                <li>Require signature for all packages</li>
+            </ul>
+
+            <h2>Shipping Restrictions</h2>
+            <h3>We Cannot Ship To:</h3>
+            <ul>
+                <li>P.O. Boxes (for express/overnight shipping)</li>
+                <li>Military APO/FPO addresses (working on solution)</li>
+                <li>Countries with trade restrictions</li>
+                <li>Remote locations not served by carriers</li>
+            </ul>
+
+            <h3>Restricted Items</h3>
+            <ul>
+                <li>Some countries may restrict import of gaming materials</li>
+                <li>Customs may delay packages containing cards/games</li>
+                <li>Large orders may require additional documentation</li>
+            </ul>
+
+            <h2>Delivery Issues</h2>
+            <h3>Common Problems & Solutions</h3>
+            <ul>
+                <li><strong>Package Not Delivered:</strong> Check with neighbors, check tracking for delivery location</li>
+                <li><strong>Damaged Package:</strong> Contact us immediately with photos</li>
+                <li><strong>Wrong Address:</strong> Contact carrier immediately for intercept</li>
+                <li><strong>Customs Delays:</strong> Normal for international orders, may take additional 1-2 weeks</li>
+            </ul>
+
+            <h3>Lost Package Policy</h3>
+            <ul>
+                <li>Domestic packages: Replacement sent after 10 business days</li>
+                <li>International packages: Investigation begins after 21 business days</li>
+                <li>Insurance claims filed automatically for lost packages</li>
+                <li>Refund or replacement provided once claim is resolved</li>
+            </ul>
+
+            <h2>Holidays & Peak Seasons</h2>
+            <h3>Service Impacts</h3>
+            <ul>
+                <li><strong>Black Friday - Cyber Monday:</strong> 2-3 day processing delays</li>
+                <li><strong>December Holiday Season:</strong> Extended shipping times</li>
+                <li><strong>Major Holidays:</strong> No processing on business holidays</li>
+                <li><strong>Kickstarter Fulfillment:</strong> May impact regular order processing</li>
+            </ul>
+
+            <h3>Recommended Order Dates</h3>
+            <div class="info-box">
+                <p><strong>Holiday Shipping Deadlines:</strong></p>
+                <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                    <li>Christmas Standard Shipping: Order by December 15th</li>
+                    <li>Christmas Express Shipping: Order by December 20th</li>
+                    <li>New Year Delivery: Order by December 27th</li>
+                </ul>
+            </div>
+
+            <h2>Contact & Support</h2>
+            <h3>Shipping Questions</h3>
+            <ul>
+                <li><strong>Email:</strong> shipping@midustudios.com</li>
+                <li><strong>Response Time:</strong> Within 24 hours</li>
+                <li><strong>Phone Support:</strong> Available during business hours</li>
+                <li><strong>Live Chat:</strong> Available on website</li>
+            </ul>
+
+            <h3>Required Information for Support</h3>
+            <ul>
+                <li>Order number or tracking number</li>
+                <li>Full shipping address</li>
+                <li>Description of the issue</li>
+                <li>Photos if package was damaged</li>
+            </ul>
+
+            <div class="highlight">
+                <p><strong>Our Commitment:</strong> We're committed to getting your DoomCasters products to you safely and quickly. If there's ever an issue with shipping, we'll make it right. Your dark magic shouldn't be delayed!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function trackPackage() {
+            const trackingNumber = document.getElementById('trackingInput').value.trim();
+            
+            if (!trackingNumber) {
+                alert('Please enter a tracking number');
+                return;
+            }
+            
+            // Simple tracking number format detection
+            if (trackingNumber.length < 10) {
+                alert('Please enter a valid tracking number');
+                return;
+            }
+            
+            // Redirect to appropriate tracking service based on number format
+            let trackingUrl = '';
+            
+            if (trackingNumber.match(/^1Z/)) {
+                // UPS tracking
+                trackingUrl = `https://www.ups.com/track?track=yes&trackNums=${trackingNumber}`;
+            } else if (trackingNumber.match(/^\d{12}$/)) {
+                // FedEx tracking
+                trackingUrl = `https://www.fedex.com/apps/fedextrack/?tracknumbers=${trackingNumber}`;
+            } else if (trackingNumber.match(/^\d{20,22}$/)) {
+                // USPS tracking
+                trackingUrl = `https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${trackingNumber}`;
+            } else {
+                // Generic tracking search
+                alert('Tracking number format not recognized. Please check your email for the correct tracking link.');
+                return;
+            }
+            
+            window.open(trackingUrl, '_blank');
+        }
+        
+        // Allow Enter key to trigger tracking
+        document.getElementById('trackingInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                trackPackage();
+            }
+        });
+    </script>
+</body>
+</html>

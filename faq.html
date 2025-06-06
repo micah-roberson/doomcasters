@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rules & FAQ - DoomCasters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+            --accent-bg: #2a2a2a;
+            --text-primary: #f4e8d0;
+            --text-secondary: #ccc;
+            --text-muted: #888;
+            --border-color: #444;
+            --accent-color: #666;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .header {
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+        .content {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 3rem;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 1rem;
+            border-bottom: none;
+        }
+
+        .tab.active {
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--secondary-bg);
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: var(--accent-bg);
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color);
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .faq-item {
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: var(--secondary-bg);
+        }
+
+        .faq-answer {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-answer.open {
+            padding: 1rem;
+            max-height: 500px;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .game-setup {
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .player-count {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .player-card {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .search-box {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            background: var(--accent-bg);
+            color: var(--text-primary);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .phase-diagram {
+            background: var(--primary-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .phase-step {
+            display: inline-block;
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 0.5rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .phase-arrow {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin: 0 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .content {
+                padding: 2rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tab-container {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .player-count {
+                grid-template-columns: 1fr;
+            }
+
+            .phase-step {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            .phase-arrow {
+                display: block;
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="pixel-font">RULES & FAQ</h1>
+        <p>Master the dark arts of DoomCasters</p>
+    </div>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
+        <div class="content">
+            <div class="tab-container">
+                <div class="tab active" onclick="showTab('rules')">Game Rules</div>
+                <div class="tab" onclick="showTab('faq')">FAQ</div>
+                <div class="tab" onclick="showTab('strategy')">Strategy Guide</div>
+            </div>
+
+            <!-- GAME RULES TAB -->
+            <div id="rules" class="tab-content active">
+                <h2>Game Overview</h2>
+                <p>DoomCasters is a competitive card game for 2-4 players where you take on the role of a powerful villain seeking to destroy worlds and accumulate power. Through spell fusion, strategic card play, and world destruction, players race to become the ultimate destroyer.</p>
+
+                <div class="highlight">
+                    <p><strong>Game Goal:</strong> Be the first player to accumulate 100 Power Points by destroying worlds and casting devastating spell combinations.</p>
+                </div>
+
+                <div class="game-setup">
+                    <h3>Game Setup</h3>
+                    <div class="player-count">
+                        <div class="player-card">
+                            <h4>2 Players</h4>
+                            <p>7 cards each<br>3 World cards<br>45-60 min</p>
+                        </div>
+                        <div class="player-card">
+                            <h4>3 Players</h4>
+                            <p>6 cards each<br>4 World cards<br>60-75 min</p>
+                        </div>
+                        <div class="player-card">
+                            <h4>4 Players</h4>
+                            <p>5 cards each<br>5 World cards<br>75-90 min</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Components</h2>
+                <h3>Card Types</h3>
+                <ul>
+                    <li><strong>Spell Cards (80):</strong> Fire, Water, Earth, Air, Void elements</li>
+                    <li><strong>World Cards (20):</strong> Planets and realms to destroy</li>
+                    <li><strong>Artifact Cards (15):</strong> Powerful permanent effects</li>
+                    <li><strong>Event Cards (10):</strong> Game-changing moments</li>
+                </ul>
+
+                <h3>Other Components</h3>
+                <ul>
+                    <li>Power Point tokens</li>
+                    <li>Element tracking board</li>
+                    <li>First player marker</li>
+                    <li>Damage calculator reference</li>
+                </ul>
+
+                <h2>Turn Structure</h2>
+                <div class="phase-diagram">
+                    <div class="phase-step">
+                        <strong>1. Draw Phase</strong><br>
+                        Draw 2 cards
+                    </div>
+                    <span class="phase-arrow">→</span>
+                    <div class="phase-step">
+                        <strong>2. Action Phase</strong><br>
+                        Play spells & abilities
+                    </div>
+                    <span class="phase-arrow">→</span>
+                    <div class="phase-step">
+                        <strong>3. Attack Phase</strong><br>
+                        Target worlds/players
+                    </div>
+                    <span class="phase-arrow">→</span>
+                    <div class="phase-step">
+                        <strong>4. End Phase</strong><br>
+                        Discard to hand limit
+                    </div>
+                </div>
+
+                <h2>Spell Fusion System</h2>
+                <h3>Basic Fusion Rules</h3>
+                <ul>
+                    <li>Combine 2-3 spell cards of different elements</li>
+                    <li>Calculate total damage using fusion multipliers</li>
+                    <li>Apply special effects based on element combinations</li>
+                    <li>Physically tear and merge cards for permanent new spells</li>
+                </ul>
+
+                <h3>Fusion Multipliers</h3>
+                <ul>
+                    <li><strong>Fire + Earth:</strong> x2 damage, destroys defenses</li>
+                    <li><strong>Water + Air:</strong> x1.5 damage, bounces to second target</li>
+                    <li><strong>Void + Any Element:</strong> x3 damage, cannot be countered</li>
+                    <li><strong>Triple Fusion:</strong> x4 damage, additional special effect</li>
+                </ul>
+
+                <h2>World Destruction</h2>
+                <h3>Attacking Worlds</h3>
+                <ol>
+                    <li>Declare target world during Attack Phase</li>
+                    <li>World defends with its defense value</li>
+                    <li>Calculate total damage from your spells</li>
+                    <li>If damage exceeds defense, world is destroyed</li>
+                    <li>Gain Power Points equal to world's value</li>
+                </ol>
+
+                <h3>World Defense Mechanics</h3>
+                <ul>
+                    <li>Worlds have base defense values (5-15 points)</li>
+                    <li>Some worlds gain defense each turn they survive</li>
+                    <li>Certain artifacts can boost world defenses</li>
+                    <li>Environmental effects may protect worlds</li>
+                </ul>
+
+                <h2>Card Modification Rules</h2>
+                <h3>Ripping & Merging</h3>
+                <ul>
+                    <li>Players may physically tear cards during their turn</li>
+                    <li>Torn pieces can be recombined with other cards</li>
+                    <li>New combinations must be approved by all players</li>
+                    <li>Modified cards become permanent for the game</li>
+                    <li>Each player may modify maximum 3 cards per game</li>
+                </ul>
+
+                <div class="highlight">
+                    <p><strong>Important:</strong> Card modification is optional. Players uncomfortable with tearing cards can use proxy cards or digital alternatives.</p>
+                </div>
+
+                <h2>Winning Conditions</h2>
+                <h3>Primary Victory</h3>
+                <ul>
+                    <li>First player to reach 100 Power Points wins immediately</li>
+                    <li>Power Points are gained by destroying worlds and defeating opponents</li>
+                </ul>
+
+                <h3>Alternative Victory Conditions</h3>
+                <ul>
+                    <li><strong>Apocalypse Victory:</strong> Destroy 3 worlds in a single turn</li>
+                    <li><strong>Domination Victory:</strong> Control 5 artifacts simultaneously</li>
+                    <li><strong>Elimination Victory:</strong> Be the last player remaining</li>
+                </ul>
+            </div>
+
+            <!-- FAQ TAB -->
+            <div id="faq" class="tab-content">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search FAQ..." id="faqSearch" onkeyup="filterFAQ()">
+                </div>
+
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-item" data-keywords="setup players cards beginning start">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>How do I set up my first game?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>1. Shuffle the spell deck and deal cards based on player count (see Game Setup section)</p>
+                        <p>2. Place world cards in the center equal to player count + 1</p>
+                        <p>3. Each player starts with 10 Power Points</p>
+                        <p>4. Randomly determine first player</p>
+                        <p>5. Begin with the first player's turn</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="spell fusion combine cards damage calculate">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>How does spell fusion work exactly?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Spell fusion allows you to combine 2-3 different element cards:</p>
+                        <p>1. Choose spell cards of different elements from your hand</p>
+                        <p>2. Add their base damage values together</p>
+                        <p>3. Apply the fusion multiplier based on element combination</p>
+                        <p>4. Apply any special effects from the fusion</p>
+                        <p>Example: Fire (3 damage) + Water (2 damage) = 5 damage x1.2 multiplier = 6 total damage</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="rip tear cards modify permanent damage">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>Do I really have to tear up my cards?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No! Card tearing is completely optional. You have several alternatives:</p>
+                        <p>• Use the included proxy cards for modifications</p>
+                        <p>• Use sleeves and dry-erase markers</p>
+                        <p>• Download and print modification sheets</p>
+                        <p>• Play digitally with the companion app</p>
+                        <p>The tearing mechanic is for players who enjoy the tactile experience, but it's never required.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="world defense attack destroy power points">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>How do world defenses work?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Each world has a defense value printed on the card:</p>
+                        <p>• Your total spell damage must exceed this value to destroy the world</p>
+                        <p>• Some worlds have special defense abilities</p>
+                        <p>• Other players cannot defend worlds during your attack</p>
+                        <p>• If you fail to destroy a world, it gains +1 defense permanently</p>
+                        <p>• Successfully destroying a world gives you its Power Point value</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="artifacts permanent effects stack">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>How do artifacts work?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Artifacts provide permanent effects while in play:</p>
+                        <p>• Play during your Action Phase for the artifact cost</p>
+                        <p>• Effects remain active until the artifact is destroyed</p>
+                        <p>• You can control multiple artifacts simultaneously</p>
+                        <p>• Some artifacts have triggered abilities</p>
+                        <p>• Artifacts can be targeted and destroyed by certain spells</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="void element special powerful counter">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>What makes Void spells special?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Void is the most powerful but rarest element:</p>
+                        <p>• Void spells cannot be countered or negated</p>
+                        <p>• Void fusion multipliers are higher than other combinations</p>
+                        <p>• Only 10 Void cards exist in the entire deck</p>
+                        <p>• Void spells ignore most defensive abilities</p>
+                        <p>• Some artifacts specifically interact with Void magic</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="hand limit discard maximum cards turn">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>Is there a hand size limit?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, hand size is limited:</p>
+                        <p>• Maximum 8 cards in hand at end of turn</p>
+                        <p>• During your turn, you can hold any number of cards</p>
+                        <p>• At end of turn, discard down to 8 cards</p>
+                        <p>• Some artifacts can modify your hand limit</p>
+                        <p>• Choose which cards to discard strategically</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="multiplayer target players damage attack">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>Can I attack other players directly?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, but with restrictions:</p>
+                        <p>• You can target players who have 30+ Power Points</p>
+                        <p>• Successful attacks steal half their Power Points (rounded down)</p>
+                        <p>• Players can defend using defensive spells</p>
+                        <p>• Attacking players is riskier than attacking worlds</p>
+                        <p>• Some spells specifically target players regardless of Power Points</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="calculator damage app digital tool">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>Do I need the damage calculator?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The damage calculator is helpful but not required:</p>
+                        <p>• Available free at calculator.doomcasters.com</p>
+                        <p>• Automatically calculates fusion multipliers</p>
+                        <p>• Tracks complex spell combinations</p>
+                        <p>• You can calculate damage manually using the reference sheet</p>
+                        <p>• Especially useful for 3+ card fusions</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-keywords="tournament competitive play rules official">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span><strong>Are there official tournament rules?</strong></span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, official tournament rules include:</p>
+                        <p>• No card modification allowed in tournaments</p>
+                        <p>• Standardized deck compositions</p>
+                        <p>• Time limits: 90 minutes per game</p>
+                        <p>• Specific tiebreaker procedures</p>
+                        <p>• Judge calls for disputed interactions</p>
+                        <p>• Full rules available in the tournament guide PDF</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STRATEGY GUIDE TAB -->
+            <div id="strategy" class="tab-content">
+                <h2>Strategy Guide</h2>
+                <p>Master these strategies to become the ultimate DoomCaster and dominate your opponents.</p>
+
+                <h3>Early Game Strategy</h3>
+                <ul>
+                    <li><strong>Prioritize easy worlds:</strong> Target low-defense worlds for quick Power Points</li>
+                    <li><strong>Build your hand:</strong> Don't spend all cards immediately; plan fusion combinations</li>
+                    <li><strong>Watch opponents:</strong> Track what elements other players are collecting</li>
+                    <li><strong>Save Void cards:</strong> Void is powerful late game; don't waste it early</li>
+                </ul>
+
+                <h3>Spell Fusion Mastery</h3>
+                <h4>Best Fusion Combinations</h4>
+                <ul>
+                    <li><strong>Fire + Earth + Void:</strong> Maximum damage output for tough worlds</li>
+                    <li><strong>Water + Air:</strong> Efficient multi-target attacks</li>
+                    <li><strong>Fire + Void:</strong> High damage that can't be countered</li>
+                    <li><strong>Earth + Water + Air:</strong> Balanced damage with utility effects</li>
+                </ul>
+
+                <h4>When to Fuse vs. Single Spells</h4>
+                <ul>
+                    <li>Use single spells for quick, low-cost attacks</li>
+                    <li>Fuse when you need to overcome high defenses</li>
+                    <li>Triple fusions for game-ending plays</li>
+                    <li>Consider hand management when deciding to fuse</li>
+                </ul>
+
+                <h3>Resource Management</h3>
+                <h4>Power Point Economy</h4>
+                <ul>
+                    <li>Don't hoard Power Points; invest in artifacts</li>
+                    <li>Balance between aggressive play and defense</li>
+                    <li>Consider the 30-point attack threshold</li>
+                    <li>Use Power Points to acquire better cards when possible</li>
+                </ul>
+
+                <h4>Hand Management</h4>
+                <ul>
+                    <li>Maintain element diversity in your hand</li>
+                    <li>Don't hold too many of the same element</li>
+                    <li>Plan your discards strategically</li>
+                    <li>Sometimes drawing extra cards is better than playing spells</li>
+                </ul>
+
+                <h3>Advanced Tactics</h3>
+                <h4>World Selection</h4>
+                <ul>
+                    <li><strong>High-value worlds:</strong> Worth the extra effort late game</li>
+                    <li><strong>Special ability worlds:</strong> Destroy these before they become problematic</li>
+                    <li><strong>Defensive worlds:</strong> Target these when opponents are weak</li>
+                    <li><strong>Chain destruction:</strong> Some worlds make others easier to destroy</li>
+                </ul>
+
+                <h4>Artifact Priorities</h4>
+                <ul>
+                    <li><strong>Maw's Embrace:</strong> Increases Void spell effectiveness</li>
+                    <li><strong>Elemental Conduits:</strong> Reduce fusion costs</li>
+                    <li><strong>World Shields:</strong> Protect valuable worlds from opponents</li>
+                    <li><strong>Power Amplifiers:</strong> Multiply your Power Point generation</li>
+                </ul>
+
+                <h3>Multiplayer Dynamics</h3>
+                <h4>Player Interaction</h4>
+                <ul>
+                    <li>Form temporary alliances against the leader</li>
+                    <li>Trade information about world defenses</li>
+                    <li>Time your attacks to avoid retaliation</li>
+                    <li>Use politics to redirect opponents' attention</li>
+                </ul>
+
+                <h4>End Game Tactics</h4>
+                <ul>
+                    <li>Watch for opponents nearing 100 Power Points</li>
+                    <li>Save defensive spells for crucial moments</li>
+                    <li>Consider alternative victory conditions</li>
+                    <li>Don't reveal your winning hand too early</li>
+                </ul>
+
+                <h3>Common Mistakes to Avoid</h3>
+                <ul>
+                    <li><strong>Overextending:</strong> Don't spend all resources on one attack</li>
+                    <li><strong>Ignoring defense:</strong> Some defensive preparation is necessary</li>
+                    <li><strong>Poor fusion timing:</strong> Save big combinations for important moments</li>
+                    <li><strong>Tunnel vision:</strong> Adapt your strategy based on board state</li>
+                    <li><strong>Neglecting artifacts:</strong> Permanent effects compound over time</li>
+                </ul>
+
+                <div class="highlight">
+                    <p><strong>Pro Tip:</strong> The best DoomCasters adapt their strategy based on what other players are doing. Stay flexible and always have a backup plan!</p>
+                </div>
+
+                <h3>Practice Scenarios</h3>
+                <h4>Scenario 1: Behind in Points</h4>
+                <p>When trailing, focus on high-risk, high-reward plays. Target the leader's resources and look for alternative victory conditions. Consider more aggressive fusion strategies even if they're resource-intensive.</p>
+
+                <h4>Scenario 2: Leading the Game</h4>
+                <p>When ahead, play more conservatively. Defend your position, make efficient plays, and don't give opponents opportunities to catch up. Focus on consistent Power Point generation.</p>
+
+                <h4>Scenario 3: Close End Game</h4>
+                <p>When multiple players are near victory, every decision matters. Analyze all possible plays, consider what opponents might do, and position yourself for the optimal final turn.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.faq-icon');
+            
+            answer.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+
+        function filterFAQ() {
+            const searchTerm = document.getElementById('faqSearch').value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const keywords = item.getAttribute('data-keywords').toLowerCase();
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (keywords.includes(searchTerm) || 
+                    question.includes(searchTerm) || 
+                    answer.includes(searchTerm) ||
+                    searchTerm === '') {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Auto-open FAQ items if they match search
+        document.getElementById('faqSearch').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            if (searchTerm.length > 2) {
+                const faqItems = document.querySelectorAll('.faq-item');
+                faqItems.forEach(item => {
+                    if (item.style.display !== 'none') {
+                        const answer = item.querySelector('.faq-answer');
+                        const icon = item.querySelector('.faq-icon');
+                        if (!answer.classList.contains('open')) {
+                            answer.classList.add('open');
+                            icon.classList.add('open');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
