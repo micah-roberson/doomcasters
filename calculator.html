@@ -1,519 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doom Casters</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doom Casters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
-            color: #d4af37;
-            font-family: 'Press Start 2P', monospace;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
-        }
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
 
-        .title {
-            font-family: 'Press Start 2P', monospace;
-            font-size: clamp(12px, 3vw, 24px);
-            margin-bottom: clamp(10px, 2vh, 30px);
-            text-align: center;
-            color: #d4af37;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
-            letter-spacing: 2px;
-            position: absolute;
-            top: clamp(10px, 2vh, 20px);
-            width: 100%;
-            z-index: 100;
-        }
+    body {
+      background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
+      color: #d4af37;
+      font-family: 'Press Start 2P', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: auto;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+    }
 
-        .container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: clamp(3px, 0.8vw, 12px);
-            width: 92vw;
-            height: 78vh;
-            max-width: 900px;
-            max-height: 650px;
-            padding: clamp(3px, 0.8vw, 15px);
-            margin-top: clamp(35px, 7vh, 70px);
-        }
+    .title {
+      font-size: clamp(8px, 2.5vw, 20px);
+      margin: clamp(5px, 1vh, 20px) 0;
+      text-align: center;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+      width: 100%;
+    }
 
-        .number-box {
-            background: linear-gradient(145deg, #3d2817, #2a1b10);
-            border: 2px solid #8b4513;
-            border-radius: 8px;
-            padding: clamp(6px, 1.2vw, 16px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 
-                0 6px 12px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(212, 175, 55, 0.2);
-            position: relative;
-            min-height: 0;
-            overflow: hidden;
-        }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: clamp(2px, 1vw, 12px);
+      flex: 1;
+      width: 100%;
+      max-width: 1000px;
+      height: 100%;
+      padding: clamp(5px, 1vw, 12px);
+    }
 
-        .number-box::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #d4af37, #8b4513, #d4af37);
-            border-radius: 12px;
-            z-index: -1;
-            opacity: 0.3;
-        }
+    .number-box {
+      background: linear-gradient(145deg, #3d2817, #2a1b10);
+      border: 2px solid #8b4513;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 100%;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(212, 175, 55, 0.2);
+      position: relative;
+      padding: 8px;
+    }
 
-        .label {
-            font-size: clamp(5px, 1vw, 12px);
-            color: #cd853f;
-            margin-bottom: clamp(3px, 0.8vh, 10px);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            text-align: center;
-        }
+    .number-box::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(45deg, #d4af37, #8b4513, #d4af37);
+      border-radius: 10px;
+      z-index: -1;
+      opacity: 0.3;
+    }
 
-        .number-display {
-            font-size: clamp(14px, 2.2vw, 32px);
-            color: #ffd700;
-            margin-bottom: clamp(3px, 0.8vh, 12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            font-weight: 600;
-            flex: 0 0 auto;
-            min-height: clamp(18px, 3.5vh, 42px);
-        }
+    .label {
+      font-size: clamp(6px, 1vw, 12px);
+      color: #cd853f;
+      text-align: center;
+      margin-bottom: 6px;
+    }
 
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            gap: clamp(2px, 0.5vh, 6px);
-            width: 100%;
-            flex: 1;
-            justify-content: stretch;
-        }
+    .number-display {
+      font-size: clamp(12px, 2vw, 24px);
+      color: #ffd700;
+      text-align: center;
+      margin-bottom: 8px;
+      min-height: 24px;
+    }
 
-        .button {
-            background: linear-gradient(145deg, #8b4513, #654321);
-            border: 1px solid #a0522d;
-            color: #f5deb3;
-            font-family: 'Press Start 2P', monospace;
-            font-size: clamp(5px, 1vw, 8px);
-            font-weight: normal;
-            padding: clamp(6px, 1.2vw, 10px) clamp(8px, 1.5vw, 14px);
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 
-                0 3px 6px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            min-height: clamp(20px, 3.5vh, 32px);
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      flex: 1;
+    }
 
-        .button:hover {
-            background: linear-gradient(145deg, #a0522d, #8b4513);
-            border-color: #d4af37;
-            transform: translateY(-2px);
-            box-shadow: 
-                0 6px 12px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
+    .button {
+      background: linear-gradient(145deg, #8b4513, #654321);
+      border: 1px solid #a0522d;
+      color: #f5deb3;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(6px, 1vw, 10px);
+      padding: 6px;
+      border-radius: 4px;
+      text-align: center;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      flex: 1;
+    }
 
-        .button:active {
-            transform: translateY(1px);
-            box-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
+    .button:hover {
+      background: linear-gradient(145deg, #a0522d, #8b4513);
+      transform: translateY(-1px);
+    }
 
-        .button.add { 
-            border-color: #228b22; 
-            background: linear-gradient(145deg, #556b2f, #3d5016);
-        }
-        .button.add:hover { 
-            background: linear-gradient(145deg, #6b8e23, #556b2f);
-            color: #f0fff0;
-        }
+    .button:active {
+      transform: translateY(1px);
+    }
 
-        .button.subtract { 
-            border-color: #8b0000; 
-            background: linear-gradient(145deg, #800000, #5c0000);
-        }
-        .button.subtract:hover { 
-            background: linear-gradient(145deg, #a00000, #800000);
-            color: #ffe4e1;
-        }
+    .button.add { background: #3d5016; border-color: #228b22; }
+    .button.subtract { background: #5c0000; border-color: #8b0000; }
+    .button.multiply { background: #8b6914; border-color: #ff8c00; }
+    .button.divide { background: #660066; border-color: #ff1493; }
+    .button.clear { background: #2f2f4f; border-color: #4b0082; }
 
-        .button.multiply { 
-            border-color: #ff8c00; 
-            background: linear-gradient(145deg, #b8860b, #8b6914);
-        }
-        .button.multiply:hover { 
-            background: linear-gradient(145deg, #daa520, #b8860b);
-            color: #fffaf0;
-        }
+    .total-area {
+      border-color: #d4af37;
+      background: linear-gradient(145deg, #4a3b20, #3d2f18);
+    }
 
-        .button.divide { 
-            border-color: #ff1493; 
-            background: linear-gradient(145deg, #8b008b, #660066);
-        }
-        .button.divide:hover { 
-            background: linear-gradient(145deg, #a020f0, #8b008b);
-            color: #ffe4ff;
-        }
-
-        .button.clear { 
-            border-color: #4b0082; 
-            background: linear-gradient(145deg, #483d8b, #2f2f4f);
-        }
-        .button.clear:hover { 
-            background: linear-gradient(145deg, #6a5acd, #483d8b);
-            color: #f5f5dc;
-        }
-
-        .total-area {
-            border-color: #d4af37;
-            background: linear-gradient(145deg, #4a3b20, #3d2f18);
-        }
-
-        .total-area::before {
-            opacity: 0.6;
-        }
-
-        .total-area .number-display {
-            color: #ffd700;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
-        }
-
-        .total-area .label {
-            color: #ffd700;
-        }
-
-        .back-button {
-            position: fixed;
-            top: clamp(10px, 2vh, 20px);
-            left: clamp(10px, 2vw, 20px);
-            background: linear-gradient(145deg, #8b4513, #654321);
-            border: 2px solid #a0522d;
-            color: #f5deb3;
-            font-family: 'Press Start 2P', monospace;
-            font-size: clamp(6px, 1vw, 10px);
-            padding: clamp(6px, 1vw, 12px) clamp(8px, 1.5vw, 16px);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-        }
-
-        .back-button:hover {
-            background: linear-gradient(145deg, #a0522d, #8b4513);
-            border-color: #d4af37;
-            transform: translateY(-2px);
-            box-shadow: 
-                0 6px 12px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .back-button:active {
-            transform: translateY(1px);
-            box-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        /* Very small screens - stack in 2x3 grid */
-        @media (max-width: 480px) or (max-height: 480px) {
-            .container {
-                width: 96vw;
-                height: 88vh;
-                gap: clamp(2px, 0.4vw, 6px);
-                margin-top: clamp(20px, 4vh, 40px);
-            }
-            
-            .number-box {
-                padding: clamp(5px, 1.2vw, 14px);
-                border-width: 1px;
-            }
-            
-            .number-display {
-                font-size: clamp(16px, 3.5vw, 24px);
-                min-height: clamp(20px, 4vh, 32px);
-                margin-bottom: clamp(4px, 1vh, 8px);
-            }
-            
-            .button {
-                font-size: clamp(7px, 1.8vw, 11px);
-                padding: clamp(8px, 2vw, 14px) clamp(10px, 2.5vw, 18px);
-                min-height: clamp(26px, 5vh, 38px);
-                border-radius: 6px;
-                font-weight: bold;
-            }
-            
-            .buttons {
-                gap: clamp(3px, 0.8vh, 7px);
-            }
-        }
-
-        /* Ultra small screens - minimal spacing */
-        @media (max-width: 320px) or (max-height: 320px) {
-            .title {
-                font-size: 8px;
-                margin-bottom: 3px;
-                top: 3px;
-            }
-            
-            .container {
-                width: 99vw;
-                height: 92vh;
-                gap: 1px;
-                margin-top: 18px;
-                padding: 2px;
-            }
-            
-            .number-box {
-                padding: 4px;
-                border-width: 1px;
-                border-radius: 4px;
-            }
-            
-            .label {
-                font-size: 5px;
-                margin-bottom: 2px;
-            }
-            
-            .number-display {
-                font-size: 14px;
-                margin-bottom: 3px;
-                min-height: 18px;
-            }
-            
-            .button {
-                font-size: 5px;
-                padding: 5px 7px;
-                border-width: 1px;
-                border-radius: 3px;
-                min-height: 18px;
-                letter-spacing: 0px;
-                font-weight: bold;
-            }
-            
-            .buttons {
-                gap: 2px;
-            }
-            
-            .back-button {
-                font-size: 4px;
-                padding: 3px 5px;
-                top: 3px;
-                left: 3px;
-            }
-        }
-
-        /* Landscape orientation adjustments */
-        @media (orientation: landscape) and (max-height: 600px) {
-            .title {
-                font-size: clamp(10px, 2.5vh, 18px);
-                margin-bottom: clamp(5px, 1vh, 15px);
-                top: clamp(5px, 1vh, 15px);
-            }
-            
-            .container {
-                height: 70vh;
-                margin-top: clamp(25px, 5vh, 50px);
-            }
-        }
-
-        /* Extra wide screens */
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 1200px;
-                max-height: 800px;
-            }
-        }
-    </style>
+    .back-button {
+      position: absolute;
+      top: clamp(5px, 1.5vh, 15px);
+      left: clamp(5px, 1.5vw, 15px);
+      background: linear-gradient(145deg, #8b4513, #654321);
+      border: 2px solid #a0522d;
+      color: #f5deb3;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 1vw, 10px);
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 6px;
+      z-index: 1000;
+    }
+  </style>
 </head>
 <body>
-    <button class="back-button" onclick="window.open('www.doomcasters.com')">Website</button>
-    <h1 class="title">DOOM CASTERS</h1>
-    
-    <div class="container">
-        <div class="number-box">
-            <div class="label">Spell 1</div>
-            <div class="number-display" id="number-0">0</div>
-            <div class="buttons">
-                <button class="button add" onclick="addOne(0)">+1</button>
-                <button class="button add" onclick="addTen(0)">+10</button>
-                <button class="button subtract" onclick="subtractOne(0)">-1</button>
-                <button class="button add" onclick="addThree(0)">+3</button>
-                <button class="button multiply" onclick="multiplyTwo(0)">x2</button>
-                <button class="button divide" onclick="divideTwo(0)">÷2</button>
-                <button class="button clear" onclick="clearNumber(0)">Clear</button>
-            </div>
-        </div>
+  <button class="back-button" onclick="window.open('https://www.doomcasters.com')">Website</button>
+  <h1 class="title">DOOM CASTERS</h1>
 
-        <div class="number-box">
-            <div class="label">Spell 2</div>
-            <div class="number-display" id="number-1">0</div>
-            <div class="buttons">
-                <button class="button add" onclick="addOne(1)">+1</button>
-                <button class="button add" onclick="addTen(1)">+10</button>
-                <button class="button subtract" onclick="subtractOne(1)">-1</button>
-                <button class="button add" onclick="addThree(1)">+3</button>
-                <button class="button multiply" onclick="multiplyTwo(1)">x2</button>
-                <button class="button divide" onclick="divideTwo(1)">÷2</button>
-                <button class="button clear" onclick="clearNumber(1)">Clear</button>
-            </div>
-        </div>
-
-        <div class="number-box">
-            <div class="label">Spell 3</div>
-            <div class="number-display" id="number-2">0</div>
-            <div class="buttons">
-                <button class="button add" onclick="addOne(2)">+1</button>
-                <button class="button add" onclick="addTen(2)">+10</button>
-                <button class="button subtract" onclick="subtractOne(2)">-1</button>
-                <button class="button add" onclick="addThree(2)">+3</button>
-                <button class="button multiply" onclick="multiplyTwo(2)">x2</button>
-                <button class="button divide" onclick="divideTwo(2)">÷2</button>
-                <button class="button clear" onclick="clearNumber(2)">Clear</button>
-            </div>
-        </div>
-
-        <div class="number-box">
-            <div class="label">Spell 4</div>
-            <div class="number-display" id="number-3">0</div>
-            <div class="buttons">
-                <button class="button add" onclick="addOne(3)">+1</button>
-                <button class="button add" onclick="addTen(3)">+10</button>
-                <button class="button subtract" onclick="subtractOne(3)">-1</button>
-                <button class="button add" onclick="addThree(3)">+3</button>
-                <button class="button multiply" onclick="multiplyTwo(3)">x2</button>
-                <button class="button divide" onclick="divideTwo(3)">÷2</button>
-                <button class="button clear" onclick="clearNumber(3)">Clear</button>
-            </div>
-        </div>
-
-        <div class="number-box">
-            <div class="label">Spell 5</div>
-            <div class="number-display" id="number-4">0</div>
-            <div class="buttons">
-                <button class="button add" onclick="addOne(4)">+1</button>
-                <button class="button add" onclick="addTen(4)">+10</button>
-                <button class="button subtract" onclick="subtractOne(4)">-1</button>
-                <button class="button add" onclick="addThree(4)">+3</button>
-                <button class="button multiply" onclick="multiplyTwo(4)">x2</button>
-                <button class="button divide" onclick="divideTwo(4)">÷2</button>
-                <button class="button clear" onclick="clearNumber(4)">Clear</button>
-            </div>
-        </div>
-
-        <div class="number-box total-area">
-            <div class="label">End Game</div>
-            <div class="number-display" id="number-5">0</div>
-            <div class="buttons">
-                <button class="button add" onclick="addOne(5)">+1</button>
-                <button class="button add" onclick="addTen(5)">+10</button>
-                <button class="button subtract" onclick="subtractOne(5)">-1</button>
-                <button class="button add" onclick="addThree(5)">+3</button>
-                <button class="button multiply" onclick="multiplyTwo(5)">x2</button>
-                <button class="button divide" onclick="divideTwo(5)">÷2</button>
-                <button class="button clear" onclick="clearNumber(5)">Clear</button>
-            </div>
-        </div>
-    </div>
-
+  <div class="container">
+    <!-- Spell boxes -->
     <script>
-        // Store the current values
-        let numbers = [0, 0, 0, 0, 0, 0];
-
-        function updateDisplay(index) {
-            document.getElementById(`number-${index}`).textContent = numbers[index];
-        }
-
-        function addOne(index) {
-            numbers[index] += 1;
-            updateDisplay(index);
-            addButtonEffect(event.target);
-        }
-
-        function addTen(index) {
-            numbers[index] += 10;
-            updateDisplay(index);
-            addButtonEffect(event.target);
-        }
-
-        function addThree(index) {
-            numbers[index] += 3;
-            updateDisplay(index);
-            addButtonEffect(event.target);
-        }
-
-        function divideTwo(index) {
-            numbers[index] = Math.floor(numbers[index] / 2);
-            updateDisplay(index);
-            addButtonEffect(event.target);
-        }
-
-        function subtractOne(index) {
-            numbers[index] -= 1;
-            updateDisplay(index);
-            addButtonEffect(event.target);
-        }
-
-        function multiplyTwo(index) {
-            numbers[index] *= 2;
-            updateDisplay(index);
-            addButtonEffect(event.target);
-        }
-
-        function clearNumber(index) {
-            numbers[index] = 0;
-            updateDisplay(index);
-            addButtonEffect(event.target);
-        }
-
-        function addButtonEffect(button) {
-            button.style.transform = 'translateY(2px) scale(0.95)';
-            setTimeout(() => {
-                button.style.transform = '';
-            }, 150);
-        }
+      let spellNames = ['Spell 1', 'Spell 2', 'Spell 3', 'Spell 4', 'Spell 5', 'End Game'];
+      for (let i = 0; i < spellNames.length; i++) {
+        document.write(`
+          <div class="number-box ${i === 5 ? 'total-area' : ''}">
+            <div class="label">${spellNames[i]}</div>
+            <div class="number-display" id="number-${i}">0</div>
+            <div class="buttons">
+              <button class="button add" onclick="addOne(${i})">+1</button>
+              <button class="button add" onclick="addTen(${i})">+10</button>
+              <button class="button subtract" onclick="subtractOne(${i})">-1</button>
+              <button class="button add" onclick="addThree(${i})">+3</button>
+              <button class="button multiply" onclick="multiplyTwo(${i})">x2</button>
+              <button class="button divide" onclick="divideTwo(${i})">÷2</button>
+              <button class="button clear" onclick="clearNumber(${i})">Clear</button>
+            </div>
+          </div>
+        `);
+      }
     </script>
+  </div>
+
+  <script>
+    let numbers = Array(6).fill(0);
+
+    function updateDisplay(index) {
+      document.getElementById(`number-${index}`).textContent = numbers[index];
+    }
+
+    function addOne(index) {
+      numbers[index]++;
+      updateDisplay(index);
+    }
+
+    function addTen(index) {
+      numbers[index] += 10;
+      updateDisplay(index);
+    }
+
+    function subtractOne(index) {
+      numbers[index]--;
+      updateDisplay(index);
+    }
+
+    function addThree(index) {
+      numbers[index] += 3;
+      updateDisplay(index);
+    }
+
+    function multiplyTwo(index) {
+      numbers[index] *= 2;
+      updateDisplay(index);
+    }
+
+    function divideTwo(index) {
+      numbers[index] = Math.floor(numbers[index] / 2);
+      updateDisplay(index);
+    }
+
+    function clearNumber(index) {
+      numbers[index] = 0;
+      updateDisplay(index);
+    }
+  </script>
 </body>
 </html>
