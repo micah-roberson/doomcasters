@@ -156,7 +156,7 @@
   <div class="container">
     <!-- Spell boxes -->
     <script>
-      let spellNames = ['Spell 1', 'Spell 2', 'Spell 3', 'Spell 4', 'Spell 5', 'End Game'];
+      const spellNames = ['Spell 1', 'Spell 2', 'Spell 3', 'Spell 4', 'Spell 5', 'End Game'];
       for (let i = 0; i < spellNames.length; i++) {
         document.write(`
           <div class="number-box ${i === 5 ? 'total-area' : ''}">
@@ -164,9 +164,9 @@
             <div class="number-display" id="number-${i}">0</div>
             <div class="buttons">
               <button class="button add" onclick="addOne(${i})">+1</button>
+              <button class="button add" onclick="addThree(${i})">+3</button>
               <button class="button add" onclick="addTen(${i})">+10</button>
               <button class="button subtract" onclick="subtractOne(${i})">-1</button>
-              <button class="button add" onclick="addThree(${i})">+3</button>
               <button class="button multiply" onclick="multiplyTwo(${i})">x2</button>
               <button class="button divide" onclick="divideTwo(${i})">÷2</button>
               <button class="button clear" onclick="clearNumber(${i})">Clear</button>
@@ -189,6 +189,11 @@
       updateDisplay(index);
     }
 
+    function addThree(index) {
+      numbers[index] += 3;
+      updateDisplay(index);
+    }
+
     function addTen(index) {
       numbers[index] += 10;
       updateDisplay(index);
@@ -196,11 +201,6 @@
 
     function subtractOne(index) {
       numbers[index]--;
-      updateDisplay(index);
-    }
-
-    function addThree(index) {
-      numbers[index] += 3;
       updateDisplay(index);
     }
 
