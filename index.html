@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DoomCasters: Book of Void</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>DoomCasters - Be The Villain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,472 +12,250 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+            --accent-bg: #2a2a2a;
+            --text-primary: #f4e8d0;
+            --text-secondary: #ccc;
+            --text-muted: #888;
+            --border-color: #444;
+            --accent-color: #666;
+            --gradient-purple: linear-gradient(135deg, #4a0080 0%, #8040c0 100%);
+            --gradient-gold: linear-gradient(135deg, #b8860b 0%, #daa520 100%);
+        }
+
         body {
-            font-family: 'Press Start 2P', cursive;
-            background: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            color: #f4e8d0;
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        #game-container {
-            position: relative;
-            width: 600px;
-            height: 800px;
-            background: #0a0a0a;
-            border: 2px solid #444;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        #pages-container {
-            position: absolute;
-            width: 100%;
-            transition: none; /* Remove transition for better performance */
-            transform: translateZ(0); /* Force hardware acceleration */
-            will-change: transform;
-        }
-
-        .page {
-            width: 600px;
-            height: 800px;
-            background: linear-gradient(180deg, #1a0a0a 0%, #2a0a0a 50%, #1a0a0a 100%);
-            border-bottom: 1px solid #333;
-            position: relative;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Green void gradient for later pages */
-        .page.void-transition {
-            background: linear-gradient(180deg, #1a0a0a 0%, #0a2a0a 30%, #0a4a0a 70%, #0a6a0a 100%);
-        }
-
-        .page::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 1px;
-            height: 100%;
-            background: #333;
-            opacity: 0.3;
-        }
-
-        .page-number {
-            position: absolute;
-            bottom: 20px;
-            right: 30px;
-            font-size: 8px;
-            color: #666;
-            opacity: 0.7;
-        }
-
-        /* Left and right walls - simplified */
-        .left-wall, .right-wall {
-            position: absolute;
-            width: 8px;
-            height: 100%;
-            top: 0;
-            background: #2a1a1a;
-            border: 1px solid #333;
-        }
-
-        .left-wall {
-            left: 0;
-        }
-
-        .right-wall {
-            right: 0;
-        }
-
-        /* Big doom images - clean pixel art styling */
-        .doom-image {
-            position: absolute;
-            width: 400px;
-            height: 200px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 1px solid #444;
-        }
-
-        .doom-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        /* Story text - cleaner styling */
-        .story-text {
-            position: absolute;
-            color: #ccc;
-            padding: 15px;
-            font-size: 10px;
-            text-align: center;
-            width: 90%;
-            left: 5%;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #444;
-            text-shadow: 1px 1px 0px #000;
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .big-text {
-            font-size: 14px;
-            color: #fff;
-            text-shadow: 2px 2px 0px #000;
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
         }
 
-        /* Obstacles - simplified styling */
-        .platform {
-            position: absolute;
-            background: #3a2a2a;
-            border: 1px solid #555;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .spike {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 30px solid transparent;
-            border-right: 30px solid transparent;
-            border-bottom: 60px solid #666;
-            background-size: 60px 60px;
-            background-position: center;
-        }
-
-        /* For spike images */
-        .spike.with-image {
-            border: none;
-            width: 60px;
-            height: 60px;
-            background-size: cover;
-            background-position: center;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        .spell-card {
-            position: absolute;
-            width: 80px;
-            height: 100px;
-            background: linear-gradient(135deg, #4a0080 0%, #8040c0 100%);
-            border: 2px solid #b8860b;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            animation: float 2s ease-in-out infinite;
-            background-size: cover;
-            background-position: center;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        /* Override for image-based spell cards */
-        .spell-card.with-image {
-            background: none;
-            border: none;
-            font-size: 0; /* Hide text when using image */
-        }
-
-        .spell-card.with-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 6px;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-3deg); }
-            50% { transform: translateY(-15px) rotate(3deg); }
-        }
-
-        /* End trigger - simplified */
-        .end-trigger {
-            position: absolute;
-            width: 100%;
-            height: 300px;
-            left: 0;
-            background: #444;
-            border: 2px solid #888;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Player - Wizard GIF - optimized */
-        #player {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            z-index: 100;
-            transition: none; /* Remove transition for better performance */
-            transform: translateZ(0); /* Force hardware acceleration */
-            will-change: left, top;
-        }
-
-        #player img {
-            width: 100%;
-            height: 100%;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        /* UI - Clean styling */
-        #ui {
+        /* Header */
+        .header {
             position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid #444;
-            padding: 15px 30px;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
             z-index: 1000;
-            white-space: nowrap;
+            padding: 1rem 0;
         }
 
-        #ui h2 {
-            color: #ccc;
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 0px #000;
-        }
-
-        #ui p {
-            color: #bbb;
-            margin: 5px 0;
-            font-size: 9px;
-        }
-
-        /* MODAL STYLES - Cleaner design */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            z-index: 9999;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 0 2rem;
         }
 
-        .modal-content {
-            background: #111;
-            border: 3px solid #444;
-            padding: 30px;
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal h1, .modal h2 {
-            color: #fff;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0px #000;
-        }
-
-        .modal h1 {
-            font-size: 20px;
-        }
-
-        .modal h2 {
-            font-size: 16px;
-        }
-
-        .modal p {
-            color: #ccc;
-            margin: 15px 0;
-            font-size: 11px;
-            line-height: 1.6;
-        }
-
-        .modal button, .modal a {
-            background: #444;
-            color: #fff;
-            border: 2px solid #666;
-            padding: 12px 25px;
-            font-size: 10px;
-            cursor: pointer;
-            margin: 8px;
-            font-family: 'Press Start 2P', cursive;
-            transition: all 0.2s;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
             text-decoration: none;
-            display: inline-block;
         }
 
-        .modal button:hover, .modal a:hover {
-            background: #666;
-            border-color: #888;
-            transform: scale(1.05);
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
         }
 
-        /* FORCE HIDE ALL MODALS INITIALLY */
-        #start-screen,
-        #video-choice-modal,
-        #end-screen,
-        #cards-modal {
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .mobile-menu-btn {
             display: none;
-        }
-
-        /* Only show start screen initially */
-        #start-screen {
-            display: flex;
-        }
-
-        /* Green modal styling for video choice */
-        #video-choice-modal .modal-content {
-            border-color: #4a4a4a;
-        }
-
-        #video-choice-modal h2 {
-            color: #8f8;
-        }
-
-        #video-choice-modal button {
-            background: #4a4a4a;
-            border-color: #666;
-        }
-
-        /* Gold modal styling for cards */
-        #cards-modal .modal-content {
-            border-color: #b8860b;
-            max-width: 800px;
-        }
-
-        #cards-modal h2 {
-            color: #daa520;
-        }
-
-        #cards-modal button {
-            background: #b8860b;
-            border-color: #daa520;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin: 15px 0;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .card-item {
-            background: linear-gradient(135deg, #4a0080 0%, #8040c0 100%);
-            border: 2px solid #b8860b;
-            border-radius: 6px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card-item img {
-            width: 90px;
-            height: 135px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        .card-symbol {
-            font-size: 20px;
-            margin-top: 5px;
-        }
-
-        /* Touch controls for mobile */
-        #mobile-controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: none;
-            gap: 20px;
-            z-index: 1000;
-        }
-
-        .mobile-btn {
-            width: 60px;
-            height: 60px;
-            background: rgba(68, 68, 68, 0.9);
-            border: 2px solid #888;
-            color: #fff;
-            font-size: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Press Start 2P', cursive;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .mobile-btn:active {
-            background: rgba(136, 136, 136, 0.9);
-            transform: scale(0.95);
-        }
-
-        /* Video portal - special collectible */
-        .video-portal {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #4a4a4a 0%, #6a6a6a 50%, #4a4a4a 100%);
-            border: 3px solid #888;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            animation: portal-spin 3s linear infinite;
-            background-size: cover;
-            background-position: center;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        /* Override for image-based video portal */
-        .video-portal.with-image {
             background: none;
-            border: none;
-            font-size: 0; /* Hide emoji when using image */
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem;
+            cursor: pointer;
         }
 
-        .video-portal.with-image img {
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: var(--primary-bg);
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background-image: url('./hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-image {
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: 2px solid var(--border-color);
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--accent-bg);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--gradient-purple);
+            border-color: #8040c0;
+        }
+
+        .btn-secondary {
+            background: var(--gradient-gold);
+            border-color: #daa520;
+            color: #000;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--secondary-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: var(--gradient-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .feature-icon img {
+            width: 60px;
+            height: 60px;
             object-fit: cover;
             border-radius: 50%;
             image-rendering: pixelated;
@@ -485,986 +263,629 @@
             image-rendering: crisp-edges;
         }
 
-        @keyframes portal-spin {
-            from { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.05); }
-            to { transform: rotate(360deg) scale(1); }
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
-        /* Responsive design */
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* Game Preview Section */
+        .game-preview {
+            padding: 6rem 0;
+            background: var(--primary-bg);
+        }
+
+        .preview-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .preview-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .preview-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-image {
+            text-align: center;
+        }
+
+        .preview-image img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 0;
+            background: var(--secondary-bg);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 6rem 0;
+            background: var(--primary-bg);
+            text-align: center;
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: var(--secondary-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-cta {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+        }
+
+        .btn-large {
+            font-size: 1.1rem;
+            padding: 1.2rem 3rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: var(--text-primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 38px;
+            font-size: 1.2rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
+            .nav-links {
+                display: none;
             }
 
-            #game-container {
-                width: 95vw;
-                height: 70vh;
-                max-width: 600px;
-                max-height: 800px;
+            .mobile-menu-btn {
+                display: block;
             }
 
-            .page {
-                width: 95vw;
-                height: 70vh;
-                max-width: 600px;
-                max-height: 800px;
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
             }
 
-            #ui {
-                padding: 8px 15px;
-                font-size: 7px;
+            .hero-text h1 {
+                font-size: 2.5rem;
             }
 
-            #ui h2 {
-                font-size: 10px;
+            .hero-subtitle {
+                font-size: 1.2rem;
             }
 
-            #ui p {
-                font-size: 7px;
+            .preview-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
             }
 
-            .story-text {
-                font-size: 8px;
-                padding: 10px;
+            .preview-text h2 {
+                font-size: 2rem;
             }
 
-            .big-text {
-                font-size: 12px;
+            .section-title {
+                font-size: 2rem;
             }
 
-            .doom-image {
-                width: 80%;
-                height: 140px;
+            .cta-buttons {
+                justify-content: center;
             }
 
-            .spell-card {
-                width: 60px;
-                height: 80px;
-                font-size: 20px;
+            .video-wrapper {
+                height: 300px;
+                padding-bottom: 0;
             }
 
-            .video-portal {
-                width: 80px;
-                height: 80px;
-                font-size: 28px;
+            .video-wrapper iframe {
+                position: static;
+                height: 100%;
             }
 
-            .modal-content {
-                padding: 20px;
-                max-width: 95vw;
+            .video-cta {
+                padding: 2rem 1rem;
             }
 
-            .modal h1 {
-                font-size: 16px;
+            .btn-large {
+                font-size: 1rem;
+                padding: 1rem 2rem;
             }
 
-            .modal h2 {
-                font-size: 14px;
+            .nav-container {
+                padding: 0 1rem;
             }
 
-            .modal p {
-                font-size: 9px;
-            }
-
-            .modal button, .modal a {
-                font-size: 8px;
-                padding: 10px 15px;
-            }
-
-            .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                gap: 10px;
-            }
-
-            .card-item img {
-                width: 70px;
-                height: 105px;
-            }
-
-            #mobile-controls {
-                display: flex;
+            .container {
+                padding: 0 1rem;
             }
         }
 
         @media (max-width: 480px) {
-            #game-container {
-                width: 98vw;
-                height: 65vh;
+            .hero-text h1 {
+                font-size: 2rem;
             }
 
-            .page {
-                width: 98vw;
-                height: 65vh;
+            .hero-subtitle {
+                font-size: 1rem;
             }
 
-            .story-text {
-                font-size: 7px;
-                padding: 8px;
+            .features-grid {
+                grid-template-columns: 1fr;
             }
 
-            .big-text {
-                font-size: 10px;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .doom-image {
-                width: 90%;
-                height: 100px;
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
             }
 
-            .spell-card {
-                width: 50px;
-                height: 65px;
-                font-size: 16px;
+            .feature-card {
+                padding: 1.5rem;
             }
+        }
 
-            .video-portal {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
 
-            .modal-content {
-                padding: 15px;
-            }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Game embed styles */
+        .game-embed {
+            background: var(--secondary-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .game-frame {
+            width: 100%;
+            height: 600px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--primary-bg);
         }
     </style>
 </head>
 <body>
-    <div id="game-container">
-        <div id="pages-container"></div>
-        <div id="player">
-            <img src="./images/wizard.gif" alt="wizard">
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo pixel-font">DOOMCASTERS</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Game</a></li>
+                <li><a href="#preview">Preview</a></li>
+                <li><a href="#video">Video</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="pixel-font">DOOMCASTERS</h1>
+                <p class="hero-subtitle pixel-font">BE THE VILLAIN</p>
+                <p class="hero-description">
+                    A competitive card game where you play as the villain, not the hero. 
+                    Fuse spells, destroy worlds, and battle to end the world in this 
+                    strategic 2-4 player experience.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://www.kickstarter.com/projects/doomcasters/doomcasters" class="btn btn-primary" target="_blank">
+                        JOIN KICKSTARTER
+                    </a>
+                    <a href="./game.html" class="btn btn-secondary">
+                        PLAY VIDEOGAME
+                    </a>
+                    <a href="./calculator.html" class="btn" target="_blank">
+                        DAMAGE CALCULATOR
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="./game-box.jpg" alt="DoomCasters Game Box" style="max-width: 400px;">
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="ui">
-        <h2>BOOK OF VOID</h2>
-        <p>DEPTH: <span id="depth">0</span>M</p>
-        <p>PAGE: <span id="page">1</span></p>
-        <p>POWER: <span id="power">0</span></p>
-    </div>
-
-    <div id="start-screen" class="modal">
-        <div class="modal-content">
-            <h1>DOOMCASTERS</h1>
-            <p>BE THE VILLAIN</p>
-            <p>END THE WORLD</p>
-            <p>USE ← → TO MOVE</p>
-            <p>COLLECT POWER</p>
-            <p>SURVIVE THE VOID</p>
-            <button onclick="startGame()">ENTER THE VOID</button>
-            <a href="./main.html" target="_blank">VISIT WEBSITE</a>
-            <a href="./calculator.html" target="_blank">DAMAGE CALCULATOR</a>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title pixel-font">GAME FEATURES</h2>
+            <p class="section-subtitle">Experience the dark side of strategy gaming</p>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <img src="./icon-spell-fusion.png" alt="Spell Fusion" style="display: none;">
+                        🔥
+                    </div>
+                    <h3>SPELL FUSION</h3>
+                    <p>Combine different spell types to create devastating new abilities. Fire + Void = pure destruction!</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <img src="./icon-villain.png" alt="Play as Villain" style="display: none;">
+                        💀
+                    </div>
+                    <h3>BE THE VILLAIN</h3>
+                    <p>Finally, a game where you're the bad guy! Embrace your dark side and destroy everything in your path.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <img src="./icon-worlds.png" alt="Destroy Worlds" style="display: none;">
+                        🌍
+                    </div>
+                    <h3>SOLVE THE PUZZLE</h3>
+                    <p>Find unique play styles and stratagies to get around the worlds defenses.</p>
+                </div>
+                
+    
+            
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <img src="./icon-artifacts.png" alt="Artifacts" style="display: none;">
+                        💜
+                    </div>
+                    <h3>LEGENDARY ARTIFACTS</h3>
+                    <p>Collect powerful artifacts like Maw's Embrace to amplify your destructive capabilities.</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="mobile-controls">
-        <div class="mobile-btn" id="left-btn">←</div>
-        <div class="mobile-btn" id="right-btn">→</div>
-    </div>
-
-    <div id="video-choice-modal" class="modal">
-        <div class="modal-content">
-            <h2>ANCIENT PORTAL DISCOVERED</h2>
-            <p>YOU HAVE FOUND A MYSTICAL GATEWAY...</p>
-            <p>PEER INTO THE VOID?</p>
-            <button onclick="watchVideoFromPortal()">WATCH PROPHECY</button>
-            <button onclick="closeVideoModal()">CONTINUE JOURNEY</button>
+    <!-- Game Preview Section -->
+    <section id="preview" class="game-preview">
+        <div class="container">
+            <div class="preview-content">
+                <div class="preview-text fade-in">
+                    <h2 class="pixel-font">SURVIVE THE VOID</h2>
+                    <p>
+                        Experience the world of DoomCasters in our interactive web demo. 
+                        Navigate through the Book of Void, collect spell cards, and discover 
+                        the dark magic that powers the game.
+                    </p>
+                    <p>
+                        Use arrow keys to move, collect power-ups, and survive as long as possible 
+                        in this endless falling adventure through mystical pages.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="./game.html" class="btn btn-primary" target="_blank">
+                            PLAY NOW
+                        </a>
+                        <a href="#video" class="btn">
+                            WATCH TRAILER
+                        </a>
+                    </div>
+                </div>
+                <div class="preview-image fade-in">
+                    <div class="game-embed">
+                        <h3 style="margin-bottom: 1rem;">WEB DEMO</h3>
+                        <img src="./game-screenshot.jpg" alt="Game Screenshot" style="width: 100%; max-width: 400px; height: 300px; object-fit: cover;">
+                        <p style="margin-top: 1rem; color: var(--text-muted);">Click to play the interactive demo</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="cards-modal" class="modal">
-        <div class="modal-content">
-            <h2>COLLECTED SPELL CARDS</h2>
-            <div class="cards-grid" id="cards-grid"></div>
-            <button onclick="closeCardsModal()">CLOSE</button>
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <h2 class="section-title pixel-font">GAME STATS</h2>
+            <div class="stats-grid">
+                <div class="stat-item fade-in">
+                    <div class="stat-number pixel-font">2-4</div>
+                    <div class="stat-label">PLAYERS</div>
+                </div>
+                <div class="stat-item fade-in">
+                    <div class="stat-number pixel-font">45</div>
+                    <div class="stat-label">MINUTES PLAYTIME</div>
+                </div>
+                <div class="stat-item fade-in">
+                    <div class="stat-number pixel-font">12+</div>
+                    <div class="stat-label">AGE RATING</div>
+                </div>
+                <div class="stat-item fade-in">
+                    <div class="stat-number pixel-font">100+</div>
+                    <div class="stat-label">UNIQUE CARDS</div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="end-screen" class="modal">
-        <div class="modal-content">
-            <h2>YOU HAVE FALLEN INTO THE VOID</h2>
-            <p>FINAL DEPTH: <span id="final-depth">0</span>M</p>
-            <p>POWER COLLECTED: <span id="final-power">0</span></p>
-            <p>CARDS COLLECTED: <span id="final-cards">0</span></p>
-            <p class="big-text">JOIN THE DOOMCASTERS</p>
-            <a href="https://www.kickstarter.com/projects/doomcasters/doomcasters" target="_blank">JOIN KICKSTARTER</a>
-            <a href="https://www.doomcasters.com" target="_blank">VISIT WEBSITE</a>
-            <button onclick="restartGame()">TRY AGAIN</button>
+    <!-- Video Section -->
+    <section id="video" class="video-section">
+        <div class="container">
+            <h2 class="section-title pixel-font">WATCH THE TRAILER</h2>
+            <p class="section-subtitle">See DoomCasters in action and join our Kickstarter campaign</p>
+            
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+                        title="DoomCasters Game Trailer"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                
+                <div class="video-cta">
+                    <h3 class="pixel-font" style="margin-bottom: 1rem;">READY TO EMBRACE THE DARKNESS?</h3>
+                    <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                        Join thousands of players who are ready to be the villain. 
+                        Back our Kickstarter campaign and be among the first to own DoomCasters.
+                    </p>
+                    <a href="https://www.kickstarter.com/projects/doomcasters/doomcasters" class="btn btn-primary btn-large" target="_blank">
+                        🚀 BACK US ON KICKSTARTER
+                    </a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 3rem; text-align: center;">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Follow our journey:</p>
+                <div class="social-links" style="justify-content: center;">
+                    <a href="#" target="_blank">📘</a>
+                    <a href="#" target="_blank">🐦</a>
+                    <a href="#" target="_blank">📷</a>
+                    <a href="#" target="_blank">📺</a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>DOOMCASTERS</h3>
+                <p>Be the villain. End the world. A competitive card game where darkness wins.</p>
+                <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                    Created by <strong style="color: var(--text-primary);">Mid u Studios</strong>
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>QUICK LINKS</h3>
+                <a href="#features">Game Features</a>
+                <a href="#preview">Play Demo</a>
+                <a href="#video">Video Trailer</a>
+                <a href="./calculator.html" target="_blank">Damage Calculator</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>SUPPORT</h3>
+                <a href="#" target="_blank">Kickstarter</a>
+                <a href="rules_faq.html" target="_blank">Rules & FAQ</a>
+                <a href="#" target="_blank">Community</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>LEGAL</h3>
+                <a href="./privacy.html" target="_blank">Privacy Policy</a>
+                <a href="./terms.html" target="_blank">Terms of Service</a>
+                <a href="./refund.html" target="_blank">Refund Policy</a>
+                <a href="./shipping.html" target="_blank">Shipping Info</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mid u Studios. All rights reserved. Embrace the darkness.</p>
+        </div>
+    </footer>
 
     <script>
-        const GRAVITY = 0.12; // Slightly reduced for better control
-        const MOVE_SPEED = 7;
-        const PAGE_HEIGHT = 800;
-        let WORLD_WIDTH = 600;
-        
-        // Performance optimizations
-        let lastUpdateTime = 0;
-        const targetFPS = 60;
-        const frameTime = 1000 / targetFPS;
-        
-        // Collision detection optimization
-        let collisionCheckInterval = 0;
-        const COLLISION_CHECK_FREQUENCY = 3; // Check every 3 frames
-        
-        // Object pooling for better performance
-        const objectPool = {
-            obstacles: [],
-            getObstacle: function() {
-                return this.obstacles.pop() || {};
-            },
-            returnObstacle: function(obj) {
-                // Clear properties
-                Object.keys(obj).forEach(key => delete obj[key]);
-                this.obstacles.push(obj);
-            }
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
-        
-        // Update world dimensions with caching
-        let dimensionsCache = null;
-        function updateWorldDimensions() {
-            if (!dimensionsCache) {
-                const container = document.getElementById('game-container');
-                const rect = container.getBoundingClientRect();
-                WORLD_WIDTH = rect.width;
-                dimensionsCache = { width: WORLD_WIDTH, timestamp: Date.now() };
-            }
-        }
-        
-        // Dynamic depth calculation
-        let FINAL_DEPTH;
-        
-        function calculateDepths() {
-            const totalContentPages = Math.max(doomImages.length * 2, voidMessages.length);
-            FINAL_DEPTH = totalContentPages * PAGE_HEIGHT / 10;
-        }
-        
-        // Image replacement options
-        const IMAGE_CONFIG = {
-            pageBackground: "./images/background.png",
-            leftWall: "./images/wall.png",
-            rightWall: "./images/wall.png",
-            platform: "./images/platform.png",
-            spike: "./images/windbounce.gif",
-            endTrigger: "./void.png",
-            spellCard: "./images/spellcard.png", // NEW: Image for rotating spell cards
-            videoPortal: "./images/portal.gif"   // NEW: Image for video portal circle
-        };
-        
-        let player = {
-            x: WORLD_WIDTH / 2 - 30,
-            y: 100,
-            vx: 0,
-            vy: 0,
-            width: 60,
-            height: 60
-        };
-        
-        let camera = {
-            y: 0
-        };
-        
-        let pages = [];
-        let currentPage = 0;
-        let depth = 0;
-        let power = 0;
-        let collectedCards = [];
-        let gameRunning = false;
-        let keys = {};
-        let reachedEnd = false;
-        let videoPortalsSpawned = 0;
-        
-        // CONTENT ARRAYS
-        const doomImages = [
-            'https://via.placeholder.com/400x200/220000/ff0000?text=SPELL+FUSION+GAME',
-            'https://via.placeholder.com/400x200/000022/ff00ff?text=BE+THE+VILLAIN',
-            'https://via.placeholder.com/400x200/002200/00ff00?text=DESTROY+WORLDS',
-            'https://via.placeholder.com/400x200/222200/ffff00?text=RIP+AND+MERGE',
-            'https://via.placeholder.com/400x200/002222/00ffff?text=CHAIN+COMBOS',
-            'https://via.placeholder.com/400x200/440000/ff4444?text=DARK+MAGIC',
-            'https://via.placeholder.com/400x200/004400/44ff44?text=ENDLESS+POWER',
-            'https://via.placeholder.com/400x200/000044/4444ff?text=VOID+MASTERY'
-        ];
-        
-        const voidMessages = [
-            "DOOMCASTERS: A COMPETITIVE CARD GAME",
-            "YOU PLAY AS THE VILLAIN - NOT THE HERO",
-            "FUSE SPELLS: FIRE + VOID = DEVASTATION",
-            "DESTROY WORLDS TO GAIN POWER POINTS",
-            "2-4 PLAYERS BATTLE TO END THE WORLD",
-            "RIP CARDS APART TO CREATE NEW SPELLS",
-            "CHAIN COMBOS: FIRE→WATER→EARTH = x10 DMG",
-            "COLLECT ARTIFACTS LIKE MAW'S EMBRACE",
-            "LOCATIONS FIGHT BACK AS YOU ATTACK",
-            "LAUNCHING ON KICKSTARTER SOON",
-            "EMBRACE THE DARKNESS WITHIN",
-            "BECOME THE ULTIMATE DESTROYER",
-            "FORGE YOUR DESTINY IN FLAMES",
-            "THE VOID CALLS TO YOU",
-            "POWER BEYOND IMAGINATION AWAITS"
-        ];
-        
-        class Page {
-            constructor(index) {
-                this.index = index;
-                this.element = this.createElement();
-                this.obstacles = this.generateObstacles();
-                this.rendered = false;
-            }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Remove newsletter form submission handler since it's no longer needed
+
+        // Mobile menu toggle (basic implementation)
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            const isVisible = navLinks.style.display === 'flex';
+            navLinks.style.display = isVisible ? 'none' : 'flex';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '100%';
+            navLinks.style.left = '0';
+            navLinks.style.right = '0';
+            navLinks.style.background = 'rgba(10, 10, 10, 0.95)';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.padding = '1rem 2rem';
+            navLinks.style.borderTop = '1px solid var(--border-color)';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const navLinks = document.querySelector('.nav-links');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
             
-            createElement() {
-                const page = document.createElement('div');
-                page.className = 'page';
-                
-                // Update page dimensions
-                const container = document.getElementById('game-container');
-                if (container) {
-                    const rect = container.getBoundingClientRect();
-                    page.style.width = rect.width + 'px';
-                    page.style.height = rect.height + 'px';
-                }
-                
-                // Apply green void gradient for later pages
-                const totalContentPages = Math.max(doomImages.length * 2, voidMessages.length);
-                const halfwayPoint = Math.floor(totalContentPages / 2);
-                if (this.index >= halfwayPoint) {
-                    page.classList.add('void-transition');
-                }
-                
-                // Apply background image if configured
-                if (IMAGE_CONFIG.pageBackground) {
-                    page.style.backgroundImage = `url(${IMAGE_CONFIG.pageBackground})`;
-                }
-                
-                const pageNumber = document.createElement('div');
-                pageNumber.className = 'page-number';
-                pageNumber.textContent = `PAGE ${this.index + 1}`;
-                page.appendChild(pageNumber);
-                
-                // Add walls
-                const leftWall = document.createElement('div');
-                leftWall.className = 'left-wall';
-                if (IMAGE_CONFIG.leftWall) {
-                    leftWall.style.backgroundImage = `url(${IMAGE_CONFIG.leftWall})`;
-                    leftWall.style.backgroundSize = 'cover';
-                }
-                page.appendChild(leftWall);
-                
-                const rightWall = document.createElement('div');
-                rightWall.className = 'right-wall';
-                if (IMAGE_CONFIG.rightWall) {
-                    rightWall.style.backgroundImage = `url(${IMAGE_CONFIG.rightWall})`;
-                    rightWall.style.backgroundSize = 'cover';
-                }
-                page.appendChild(rightWall);
-                
-                return page;
-            }
-            
-            generateObstacles() {
-                const obstacles = [];
-                
-                // Add big doom image every other page
-                if (this.index % 2 === 0 && this.index < doomImages.length * 2) {
-                    obstacles.push({
-                        type: 'image',
-                        x: 100,
-                        y: 100,
-                        src: doomImages[Math.floor(this.index / 2)]
-                    });
-                }
-                
-                // Add void message
-                const messageIndex = this.index % voidMessages.length;
-                obstacles.push({
-                    type: 'text',
-                    x: 50,
-                    y: this.index % 2 === 0 ? 400 : 100,
-                    text: voidMessages[messageIndex],
-                    big: messageIndex < 3
-                });
-                
-                // Optimized platform generation
-                const platformCount = 1 + Math.floor(this.index / 2);
-                for (let i = 0; i < platformCount; i++) {
-                    const width = Math.max(60, 120 - this.index * 5);
-                    obstacles.push({
-                        type: 'platform',
-                        x: Math.random() * (WORLD_WIDTH - width - 20) + 10,
-                        y: 250 + i * 200 + Math.random() * 50,
-                        width: width,
-                        height: 15
-                    });
-                }
-                
-                // Optimized spike generation
-                const spikeCount = Math.min(Math.floor(this.index / 2) + 1, 3);
-                for (let i = 0; i < spikeCount; i++) {
-                    obstacles.push({
-                        type: 'spike',
-                        x: Math.random() * (WORLD_WIDTH - 80) + 20,
-                        y: 200 + i * 150 + Math.random() * 50,
-                        width: 60,
-                        height: 60
-                    });
-                }
-                
-                // Spell cards with reduced frequency
-                if (Math.random() < 0.4) { // Reduced from 0.5
-                    const cardSymbols = ['🔥', '💀', '⚡', '🌙', '💜', '🌟', '❄️', '🌊', '🍃', '⭐'];
-                    obstacles.push({
-                        type: 'spell',
-                        x: Math.random() * (WORLD_WIDTH - 80) + 10,
-                        y: 300 + Math.random() * 200,
-                        collected: false,
-                        symbol: cardSymbols[Math.floor(Math.random() * cardSymbols.length)],
-                        imageUrl: `https://via.placeholder.com/200x300/4a0080/ffffff?text=${encodeURIComponent(cardSymbols[Math.floor(Math.random() * cardSymbols.length)])}`
-                    });
-                }
-                
-                // Video portal optimization
-                const totalContentPages = Math.max(doomImages.length * 2, voidMessages.length);
-                const middleStart = Math.floor(totalContentPages / 3);
-                const middleEnd = Math.floor((totalContentPages * 2) / 3);
-                
-                if (this.index >= middleStart && this.index <= middleEnd && 
-                    videoPortalsSpawned < 2 && Math.random() < 0.3) { // Reduced from 0.4
-                    obstacles.push({
-                        type: 'video-portal',
-                        x: Math.random() * (WORLD_WIDTH - 120) + 10,
-                        y: 150 + Math.random() * 300,
-                        collected: false
-                    });
-                    videoPortalsSpawned++;
-                }
-                
-                // Add end trigger
-                if (this.index >= totalContentPages) {
-                    obstacles.push({
-                        type: 'end-trigger',
-                        x: 0,
-                        y: 400,
-                        width: WORLD_WIDTH,
-                        height: 300
-                    });
-                }
-                
-                return obstacles;
-            }
-            
-            render() {
-                if (this.rendered) return; // Avoid re-rendering
-                
-                // Use document fragment for better performance
-                const fragment = document.createDocumentFragment();
-                
-                this.obstacles.forEach(obstacle => {
-                    const el = document.createElement('div');
-                    
-                    switch(obstacle.type) {
-                        case 'platform':
-                            el.className = 'platform';
-                            el.style.left = obstacle.x + 'px';
-                            el.style.top = obstacle.y + 'px';
-                            el.style.width = obstacle.width + 'px';
-                            el.style.height = obstacle.height + 'px';
-                            if (IMAGE_CONFIG.platform) {
-                                el.style.backgroundImage = `url(${IMAGE_CONFIG.platform})`;
-                            }
-                            break;
-                            
-                        case 'text':
-                            el.className = 'story-text';
-                            if (obstacle.big) el.classList.add('big-text');
-                            el.style.left = obstacle.x + 'px';
-                            el.style.top = obstacle.y + 'px';
-                            el.textContent = obstacle.text;
-                            break;
-                            
-                        case 'image':
-                            el.className = 'doom-image';
-                            el.style.top = obstacle.y + 'px';
-                            el.innerHTML = `<img src="${obstacle.src}" alt="doom">`;
-                            break;
-                            
-                        case 'spike':
-                            el.className = 'spike';
-                            el.style.left = obstacle.x + 'px';
-                            el.style.top = obstacle.y + 'px';
-                            if (IMAGE_CONFIG.spike) {
-                                el.classList.add('with-image');
-                                el.style.backgroundImage = `url(${IMAGE_CONFIG.spike})`;
-                            }
-                            break;
-                            
-                        case 'spell':
-                            if (!obstacle.collected) {
-                                el.className = 'spell-card';
-                                el.style.left = obstacle.x + 'px';
-                                el.style.top = obstacle.y + 'px';
-                                
-                                if (IMAGE_CONFIG.spellCard) {
-                                    el.classList.add('with-image');
-                                    el.innerHTML = `<img src="${IMAGE_CONFIG.spellCard}" alt="spell card">`;
-                                } else {
-                                    el.textContent = obstacle.symbol;
-                                }
-                            }
-                            break;
-                            
-                        case 'video-portal':
-                            if (!obstacle.collected) {
-                                el.className = 'video-portal';
-                                el.style.left = obstacle.x + 'px';
-                                el.style.top = obstacle.y + 'px';
-                                
-                                if (IMAGE_CONFIG.videoPortal) {
-                                    el.classList.add('with-image');
-                                    el.innerHTML = `<img src="${IMAGE_CONFIG.videoPortal}" alt="video portal">`;
-                                } else {
-                                    el.textContent = '📺';
-                                }
-                            }
-                            break;
-                            
-                        case 'end-trigger':
-                            el.className = 'end-trigger';
-                            el.style.left = obstacle.x + 'px';
-                            el.style.top = obstacle.y + 'px';
-                            if (IMAGE_CONFIG.endTrigger) {
-                                el.style.backgroundImage = `url(${IMAGE_CONFIG.endTrigger})`;
-                            }
-                            break;
-                    }
-                    
-                    if (el.className) fragment.appendChild(el);
-                });
-                
-                this.element.appendChild(fragment);
-                this.rendered = true;
-            }
-        }
-        
-        // Optimized collision detection with spatial partitioning
-        function checkCollisions() {
-            collisionCheckInterval++;
-            if (collisionCheckInterval < COLLISION_CHECK_FREQUENCY) return;
-            collisionCheckInterval = 0;
-            
-            const playerPage = Math.floor((camera.y + player.y) / PAGE_HEIGHT);
-            const page = pages[playerPage];
-            
-            if (!page) return;
-            
-            const playerBottom = player.y + player.height;
-            const playerRight = player.x + player.width;
-            const pageOffset = playerPage * PAGE_HEIGHT;
-            
-            // Pre-calculate player bounds for efficiency
-            const playerBounds = {
-                left: player.x,
-                right: playerRight,
-                top: player.y,
-                bottom: playerBottom
-            };
-            
-            let nearImage = false;
-            let nearText = false;
-            
-            // Use for loop for better performance than forEach
-            for (let i = 0; i < page.obstacles.length; i++) {
-                const obstacle = page.obstacles[i];
-                const obstacleWorldY = obstacle.y + pageOffset;
-                const relativeY = obstacleWorldY - camera.y;
-                
-                // Quick bounds check to skip distant obstacles
-                if (relativeY > player.y + 200 || relativeY < player.y - 200) continue;
-                
-                // Check proximity to images and text
-                if (obstacle.type === 'image' && relativeY > player.y - 50 && relativeY < player.y + 250) {
-                    nearImage = true;
-                } else if (obstacle.type === 'text' && Math.abs(relativeY - player.y) < 40) {
-                    nearText = true;
-                }
-                
-                // Collision detection with early exits
-                if (obstacle.type === 'platform') {
-                    if (player.vy > 0 &&
-                        playerBottom > relativeY && 
-                        playerBottom < relativeY + obstacle.height + 10 &&
-                        playerBounds.left < obstacle.x + obstacle.width &&
-                        playerBounds.right > obstacle.x) {
-                        player.y = relativeY - player.height;
-                        player.vy = 0;
-                    }
-                } else if (obstacle.type === 'spike') {
-                    if (playerBounds.left < obstacle.x + obstacle.width &&
-                        playerBounds.right > obstacle.x &&
-                        playerBounds.top < relativeY + obstacle.height &&
-                        playerBounds.bottom > relativeY) {
-                        player.vy = -8; // Reduced bounce
-                        player.vx = (player.x < obstacle.x + 30) ? -8 : 8;
-                    }
-                } else if (obstacle.type === 'spell' && !obstacle.collected) {
-                    if (playerBounds.left < obstacle.x + 80 &&
-                        playerBounds.right > obstacle.x &&
-                        playerBounds.top < relativeY + 100 &&
-                        playerBounds.bottom > relativeY) {
-                        obstacle.collected = true;
-                        
-                        // Remove the card element immediately for visual feedback
-                        const cardElements = page.element.querySelectorAll('.spell-card');
-                        cardElements.forEach(cardEl => {
-                            const cardLeft = parseInt(cardEl.style.left);
-                            const cardTop = parseInt(cardEl.style.top);
-                            if (Math.abs(cardLeft - obstacle.x) < 5 && Math.abs(cardTop - obstacle.y) < 5) {
-                                cardEl.remove();
-                            }
-                        });
-                        
-                        collectedCards.push({
-                            symbol: obstacle.symbol,
-                            imageUrl: obstacle.imageUrl
-                        });
-                        power += 25;
-                        document.getElementById('power').textContent = power;
-                        updateCollectedCardsDisplay();
-                    }
-                } else if (obstacle.type === 'video-portal' && !obstacle.collected) {
-                    if (playerBounds.left < obstacle.x + 120 &&
-                        playerBounds.right > obstacle.x &&
-                        playerBounds.top < relativeY + 120 &&
-                        playerBounds.bottom > relativeY) {
-                        obstacle.collected = true;
-                        
-                        // Remove the portal element immediately for visual feedback
-                        const portalElements = page.element.querySelectorAll('.video-portal');
-                        portalElements.forEach(portalEl => {
-                            const portalLeft = parseInt(portalEl.style.left);
-                            const portalTop = parseInt(portalEl.style.top);
-                            if (Math.abs(portalLeft - obstacle.x) < 5 && Math.abs(portalTop - obstacle.y) < 5) {
-                                portalEl.remove();
-                            }
-                        });
-                        
-                        gameRunning = false;
-                        showVideoModal();
-                    }
-                } else if (obstacle.type === 'end-trigger') {
-                    if (playerBounds.left < obstacle.x + obstacle.width &&
-                        playerBounds.right > obstacle.x &&
-                        playerBounds.top < relativeY + obstacle.height &&
-                        playerBounds.bottom > relativeY) {
-                        if (!reachedEnd) {
-                            reachedEnd = true;
-                            endGame();
-                        }
-                    }
+            if (!navLinks.contains(e.target) && !mobileBtn.contains(e.target)) {
+                if (window.innerWidth <= 768) {
+                    navLinks.style.display = 'none';
                 }
             }
-            
-            player.nearImage = nearImage;
-            player.nearText = nearText;
-        }
-        
-        function updateCollectedCardsDisplay() {
-            let cardsDisplay = document.getElementById('collected-cards');
-            if (!cardsDisplay) {
-                cardsDisplay = document.createElement('p');
-                cardsDisplay.id = 'collected-cards';
-                document.getElementById('ui').appendChild(cardsDisplay);
-            }
-            cardsDisplay.textContent = 'CARDS: ' + collectedCards.length;
-        }
-        
-        // Optimized update function with frame rate limiting
-        function update(currentTime) {
-            if (!gameRunning) return;
-            
-            // Frame rate limiting
-            if (currentTime - lastUpdateTime < frameTime) {
-                return;
-            }
-            lastUpdateTime = currentTime;
-            
-            // Aggressive page preloading with limits
-            const currentPageIndex = Math.floor(camera.y / PAGE_HEIGHT);
-            const targetPages = Math.min(currentPageIndex + 6, currentPageIndex + 15); // Limit max pages
-            
-            // Only create pages if needed
-            while (pages.length <= targetPages && pages.length < 50) { // Cap total pages
-                const newPage = new Page(pages.length);
-                pages.push(newPage);
-                document.getElementById('pages-container').appendChild(newPage.element);
-                // Defer rendering until visible
-                if (pages.length <= currentPageIndex + 3) {
-                    newPage.render();
-                }
-            }
-            
-            // Render nearby pages only
-            for (let i = Math.max(0, currentPageIndex - 1); i <= Math.min(pages.length - 1, currentPageIndex + 2); i++) {
-                if (pages[i] && !pages[i].rendered) {
-                    pages[i].render();
-                }
-            }
-            
-            // Physics with optimizations
-            if (keys['ArrowLeft']) {
-                player.vx = -MOVE_SPEED;
-            } else if (keys['ArrowRight']) {
-                player.vx = MOVE_SPEED;
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const navLinks = document.querySelector('.nav-links');
+            if (window.innerWidth > 768) {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'static';
+                navLinks.style.flexDirection = 'row';
+                navLinks.style.background = 'none';
+                navLinks.style.padding = '0';
+                navLinks.style.border = 'none';
             } else {
-                player.vx *= 0.85;
-            }
-            
-            // Gravity with proximity-based modification
-            const gravityMultiplier = (player.nearImage || player.nearText) ? 0.3 : 1.0;
-            player.vy += GRAVITY * gravityMultiplier;
-            
-            // Terminal velocity
-            const maxVelocity = (player.nearImage || player.nearText) ? 3 : 8;
-            player.vy = Math.min(player.vy, maxVelocity);
-            
-            // Update position
-            player.x += player.vx;
-            player.y += player.vy;
-            
-            // Bounds checking
-            player.x = Math.max(10, Math.min(WORLD_WIDTH - player.width - 10, player.x));
-            
-            // Camera update
-            if (player.y > 400) {
-                camera.y += player.vy;
-                player.y = 400;
-            }
-            
-            // Update depth and page
-            depth = Math.floor(camera.y / 10);
-            currentPage = Math.floor(camera.y / PAGE_HEIGHT) + 1;
-            
-            // Collision detection
-            checkCollisions();
-            
-            // Batch DOM updates
-            requestAnimationFrame(() => {
-                document.getElementById('depth').textContent = depth;
-                document.getElementById('page').textContent = currentPage;
-                document.getElementById('pages-container').style.transform = `translate3d(0, ${-camera.y}px, 0)`;
-                document.getElementById('player').style.transform = `translate3d(${player.x}px, ${player.y}px, 0)`;
-            });
-        }
-        
-        function gameLoop(currentTime) {
-            update(currentTime);
-            if (gameRunning) {
-                requestAnimationFrame(gameLoop);
-            }
-        }
-        
-        function startGame() {
-            updateWorldDimensions();
-            calculateDepths();
-            
-            const startScreen = document.getElementById('start-screen');
-            startScreen.style.display = 'none';
-            
-            gameRunning = true;
-            requestAnimationFrame(gameLoop);
-        }
-        
-        function showVideoModal() {
-            document.getElementById('video-choice-modal').style.display = 'flex';
-        }
-        
-        function showEndScreen() {
-            document.getElementById('end-screen').style.display = 'flex';
-        }
-        
-        function showCardsModal() {
-            document.getElementById('cards-modal').style.display = 'flex';
-        }
-        
-        function endGame() {
-            gameRunning = false;
-            document.getElementById('final-depth').textContent = depth;
-            document.getElementById('final-power').textContent = power;
-            document.getElementById('final-cards').textContent = collectedCards.length;
-            showEndScreen();
-        }
-        
-        function viewCollectedCards() {
-            // Function removed - no longer accessible
-            closeCardsModal();
-        }
-        
-        function closeCardsModal() {
-            document.getElementById('cards-modal').style.display = 'none';
-        }
-        
-        function restartGame() {
-            // Reset game state
-            player.x = WORLD_WIDTH / 2 - 30;
-            player.y = 100;
-            player.vx = 0;
-            player.vy = 0;
-            camera.y = 0;
-            currentPage = 0;
-            depth = 0;
-            power = 0;
-            collectedCards = [];
-            reachedEnd = false;
-            videoPortalsSpawned = 0;
-            lastUpdateTime = 0;
-            collisionCheckInterval = 0;
-            
-            // Clear caches
-            dimensionsCache = null;
-            
-            calculateDepths();
-            
-            // Clear pages efficiently
-            pages.forEach(page => {
-                if (page.element && page.element.parentNode) {
-                    page.element.parentNode.removeChild(page.element);
-                }
-            });
-            pages = [];
-            document.getElementById('pages-container').innerHTML = '';
-            
-            // Hide modals
-            document.getElementById('end-screen').style.display = 'none';
-            document.getElementById('cards-modal').style.display = 'none';
-            document.getElementById('video-choice-modal').style.display = 'none';
-            
-            // Reset UI
-            document.getElementById('depth').textContent = '0';
-            document.getElementById('page').textContent = '1';
-            document.getElementById('power').textContent = '0';
-            
-            const cardsDisplay = document.getElementById('collected-cards');
-            if (cardsDisplay) {
-                cardsDisplay.textContent = 'CARDS: 0';
-            }
-            
-            // Create initial pages
-            const fragment = document.createDocumentFragment();
-            for (let i = 0; i < 3; i++) {
-                const page = new Page(i);
-                pages.push(page);
-                fragment.appendChild(page.element);
-                page.render();
-            }
-            document.getElementById('pages-container').appendChild(fragment);
-            
-            gameRunning = true;
-            requestAnimationFrame(gameLoop);
-        }
-        
-        function watchVideoFromPortal() {
-            window.open('https://www.youtube.com/watch?v=YOUR_VIDEO_ID', '_blank');
-            closeVideoModal();
-        }
-        
-        function closeVideoModal() {
-            document.getElementById('video-choice-modal').style.display = 'none';
-            gameRunning = true;
-            requestAnimationFrame(gameLoop);
-        }
-        
-        // Optimized event handlers
-        const keyState = {};
-        document.addEventListener('keydown', (e) => {
-            if (!keyState[e.key]) {
-                keys[e.key] = true;
-                keyState[e.key] = true;
-            }
-        });
-        
-        document.addEventListener('keyup', (e) => {
-            keys[e.key] = false;
-            keyState[e.key] = false;
-        });
-        
-        // Mobile controls with optimizations
-        let touchHandlers = {
-            left: { active: false },
-            right: { active: false }
-        };
-        
-        function handleTouch(direction, active) {
-            if (touchHandlers[direction].active !== active) {
-                touchHandlers[direction].active = active;
-                keys[direction === 'left' ? 'ArrowLeft' : 'ArrowRight'] = active;
-            }
-        }
-        
-        // Touch events
-        ['touchstart', 'mousedown'].forEach(event => {
-            document.getElementById('left-btn').addEventListener(event, (e) => {
-                e.preventDefault();
-                handleTouch('left', true);
-            });
-            
-            document.getElementById('right-btn').addEventListener(event, (e) => {
-                e.preventDefault();
-                handleTouch('right', true);
-            });
-        });
-        
-        ['touchend', 'mouseup'].forEach(event => {
-            document.getElementById('left-btn').addEventListener(event, (e) => {
-                e.preventDefault();
-                handleTouch('left', false);
-            });
-            
-            document.getElementById('right-btn').addEventListener(event, (e) => {
-                e.preventDefault();
-                handleTouch('right', false);
-            });
-        });
-        
-        // Prevent context menu
-        document.addEventListener('contextmenu', (e) => e.preventDefault());
-        
-        // Optimized resize handling with debouncing
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                dimensionsCache = null;
-                if (gameRunning) {
-                    updateWorldDimensions();
-                    player.x = Math.max(10, Math.min(WORLD_WIDTH - player.width - 10, player.x));
-                }
-            }, 100);
-        });
-        
-        // Initialize with optimizations
-        calculateDepths();
-        updateWorldDimensions();
-        
-        // Create initial pages with document fragment
-        const initialFragment = document.createDocumentFragment();
-        for (let i = 0; i < 3; i++) {
-            const page = new Page(i);
-            pages.push(page);
-            initialFragment.appendChild(page.element);
-            page.render();
-        }
-        document.getElementById('pages-container').appendChild(initialFragment);
-        
-        // Backup event listener
-        document.addEventListener('DOMContentLoaded', function() {
-            const startButton = document.querySelector('#start-screen button');
-            if (startButton) {
-                startButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    startGame();
-                });
+                navLinks.style.display = 'none';
             }
         });
     </script>
