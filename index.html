@@ -91,6 +91,13 @@
             padding: 0.5rem;
             cursor: pointer;
         }
+        .logo img.logo-img {
+    height: 50px;
+    max-height: 8vh;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
 
         /* Hero Section */
         .hero {
@@ -560,7 +567,7 @@
 
         /* Game embed styles */
         .game-embed {
-            background: var(--secondary-bg);
+        
             padding: 1rem;
             text-align: center;
         }
@@ -578,7 +585,9 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
-            <a href="#" class="logo pixel-font">DOOMCASTERS</a>
+            <a href="#" class="logo">
+                <img src="./images/logo.png" alt="Doomcasters Logo" class="logo-img">
+            </a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#features">Game</a></li>
@@ -605,16 +614,14 @@
                     <a href="https://www.kickstarter.com/projects/doomcasters/doomcasters" class="btn btn-primary" target="_blank">
                         JOIN KICKSTARTER
                     </a>
-                    <a href="https://doomcasters.com/game.html" class="btn btn-secondary">
-                        PLAY VIDEOGAME
-                    </a>
+
                     <a href="https://doomcasters.com/calculator.html" class="btn" target="_blank">
                         DAMAGE CALCULATOR
                     </a>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="./images/mockup.png" alt="DoomCasters Game Box" style="max-width: 400px;">
+                <img src="./images/mockup2.png" alt="DoomCasters Game Box" style="max-width: 400px;">
             </div>
         </div>
     </section>
