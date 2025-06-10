@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doomcasters - Intro</title>
+  <link rel="icon" type="image/png" href="./images/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: black;
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      overflow: hidden;
+    }
+    .screen {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    .hidden { display: none; }
+    .press-start {
+      animation: blink 1.5s step-end infinite;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .placeholder-img {
+      width: 300px;
+      height: 150px;
+      background-size: cover;
+      background-position: center;
+      margin: 1rem;
+    }
+    .placeholder2-img {
+      width: 300px;
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+      margin: 1rem;
+    }
+    .typed-text {
+      font-size: 0.75rem;
+      white-space: pre-wrap;
+      max-width: 80%;
+      line-height: 1.5;
+    }
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 120px);
+      gap: 20px;
+      margin-top: 2rem;
+    }
+    .character {
+      width: 100px;
+      height: 120px;
+
+      transition: transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      cursor: pointer;
+    }
+    .character img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      transition: filter 0.2s, border 0.2s;
+    }
+    .character-name {
+      font-size: 0.5rem;
+      margin-top: 2px;
+    }
+    .character:hover img {
+      filter: brightness(1.3);
+    }
+    .character.selected {
+      border-color: #f0f;
+    }
+    .final-screen .placeholder-img {
+      width: 350px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="intro-music" src="./music/intro.mp3" loop></audio>
+  <audio id="main-music" src="./music/oh-god.mp3" loop></audio>
+  <audio id="select-sound" src="./sounds/select.mp3"></audio>
+  <audio id="confirm-sound" src="./sounds/confirm.mp3"></audio>
+  <audio id="transition-sound" src="./sounds/transition.mp3"></audio>
+  <audio id="press-start-sound" src="./sounds/game-start-6104.mp3"></audio>
+  <audio id="eye-sound" src="./sounds/eye-sound.mp3"></audio>
+
+  <div id="title-screen" class="screen">
+    <div class="placeholder-img" style="background-image: url('./images/doomcasterslogo.png');"></div>
+    <div style="font-size: 0.8rem;">A WIZARD CARD GAME</div>
+    <div class="press-start">PRESS START</div>
+  </div>
+
+  <div id="typing-screen" class="screen hidden">
+    <div class="typed-text" id="typed-text"></div>
+  </div>
+
+  <div id="animation-screen" class="screen hidden">
+    <div class="placeholder-img" style="background-image: url('./images/eclipse.gif');"></div>
+  </div>
+
+  <div id="helmet-screen" class="screen hidden">
+    <div class="placeholder2-img" style="background-image: url('./images/goul.gif');"></div>
+  </div>
+
+  <div id="select-screen" class="screen hidden">
+    <div style="font-size: 0.8rem;">CHOOSE YOUR DOOMCASTER</div>
+    <div class="character-grid" id="character-grid"></div>
+  </div>
+
+  <div id="final-screen" class="screen hidden final-screen">
+    <div class="placeholder2-img" style="background-image: url('./images/glass.gif');"></div>
+    <div style="font-size: 0.6rem; margin-top: 1rem;">(Summoning your path...)</div>
+  </div>
+
+  <script>
+    const narrative = [
+      "I GROW HUNGRIER BY THE SECOND...",
+      "ALL MUST BECOME ONE WITH THE EMPTINESS.",
+      "GIVE AWAY YOUR MORALS. YOU ARE A WIZARD OF DESTRUCTION.",
+      "LEAVE NO STONE UNTURNED, NO PRECIOUS LIFE LEFT TO BREATHE.",
+      "ALL MUST BECOME ONE WITH THE EMPTINESS."
+    ];
+
+    function typeText(lines, el, cb) {
+      let lineIdx = 0, charIdx = 0;
+      function step() {
+        if (lineIdx < lines.length) {
+          if (charIdx <= lines[lineIdx].length) {
+            el.textContent = lines.slice(0, lineIdx).join("\n\n") + "\n\n" + lines[lineIdx].substr(0, charIdx);
+            charIdx++;
+            setTimeout(step, 30);
+          } else {
+            lineIdx++;
+            charIdx = 0;
+            setTimeout(step, 500);
+          }
+        } else {
+          cb();
+        }
+      }
+      step();
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      document.getElementById('transition-sound').play().catch(() => {});
+    }
+
+    function beginIntro() {
+      showScreen('typing-screen');
+      typeText(narrative, document.getElementById('typed-text'), () => {
+        setTimeout(() => {
+          showScreen('animation-screen');
+          setTimeout(() => {
+            showScreen('helmet-screen');
+            setTimeout(() => {
+              document.getElementById('eye-sound').play().catch(() => {});
+              showScreen('select-screen');
+            }, 3000);
+          }, 4000);
+        }, 1500);
+      });
+    }
+
+    let started = false;
+
+    const pressStartEl = document.querySelector('.press-start');
+
+    function triggerStart() {
+      if (!started) {
+        started = true;
+        document.getElementById('intro-music').pause();
+        document.getElementById('main-music').play().catch(() => {});
+        document.getElementById('confirm-sound').play().catch(() => {});
+        document.getElementById('press-start-sound').play().catch(() => {});
+        beginIntro();
+      }
+    }
+
+    document.body.addEventListener('keydown', triggerStart);
+    document.body.addEventListener('click', triggerStart);
+    pressStartEl.addEventListener('click', triggerStart);
+
+    const characters = [
+      { name: "Bubble Wizard",       img: "./images/green.png" },
+      { name: "Air WIzard",      img: "./images/air.png" },
+      { name: "Quick Qizard",       img: "./images/quick.png" },
+      { name: "Wood Wiizard",      img: "./images/wood.png" },
+      { name: "Dr Wiz",     img: "./images/dr.png" }, // middle one
+      { name: "Heat Wizard",       img: "./images/heat.png" },
+      { name: "Metal Wizard",  img: "./images/metal.png" },
+      { name: "Flash Wiz",  img: "./images/flash.png" },
+      { name: "Clash", img: "./images/clash.png" }
+    ];
+
+    const grid = document.getElementById('character-grid');
+    let selectedDiv = null;
+
+    characters.forEach(char => {
+      const div = document.createElement('div');
+      div.className = 'character';
+
+      const img = document.createElement('img');
+      img.src = char.img;
+      img.alt = char.name;
+
+      const label = document.createElement('div');
+      label.className = 'character-name';
+      label.textContent = char.name;
+
+      div.appendChild(img);
+      div.appendChild(label);
+
+      div.addEventListener('click', () => {
+        document.getElementById('confirm-sound').play().catch(() => {});
+        if (selectedDiv) selectedDiv.classList.remove('selected');
+        div.classList.add('selected');
+        selectedDiv = div;
+
+        setTimeout(() => {
+          showScreen('final-screen');
+          setTimeout(() => {
+            window.location.href = 'https://doomcasters.com';
+          }, 3000);
+        }, 500);
+      });
+
+      div.addEventListener('mouseenter', () => {
+        document.getElementById('select-sound').play().catch(() => {});
+      });
+
+      grid.appendChild(div);
+    });
+
+    window.onload = () => {
+      document.getElementById('intro-music').play().catch(() => {});
+      setTimeout(() => {
+        document.getElementById('press-start-sound').play().catch(() => {});
+      }, 500);
+    };
+  </script>
+</body>
+</html>
