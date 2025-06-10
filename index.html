@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +35,7 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            min-width: 320px;
         }
 
         /* Animated background */
@@ -120,7 +120,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         .logo {
@@ -135,8 +135,7 @@
         }
 
         .logo img.logo-img {
-            height: 50px;
-            max-height: 8vh;
+            height: 40px;
             width: auto;
             object-fit: contain;
             display: block;
@@ -186,7 +185,8 @@
             position: relative;
             background: var(--primary-bg);
             overflow: hidden;
-            padding: 120px 0 80px;
+            padding-top: 80px;
+            padding-bottom: 40px;
         }
 
         .hero-bg {
@@ -211,19 +211,24 @@
         }
 
         .hero-content {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
             align-items: center;
             position: relative;
             z-index: 2;
         }
 
+        .hero-text {
+            order: 1;
+        }
+
         .hero-text h1 {
-            font-size: 4rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
             line-height: 1.2;
             animation: glitch 3s ease-in-out infinite;
@@ -231,7 +236,7 @@
         }
 
         .hero-subtitle {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             background: var(--gradient-evil);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -246,7 +251,7 @@
         }
 
         .hero-description {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-secondary);
             margin-bottom: 2rem;
             line-height: 1.8;
@@ -254,17 +259,17 @@
         }
 
         .hero-image {
+            order: 2;
             text-align: center;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 400px;
         }
 
         .hero-image img {
-            max-width: 90%;
-            max-height: 500px;
+            width: 100%;
+            max-width: 450px;
             height: auto;
             filter: drop-shadow(0 20px 40px rgba(112, 48, 160, 0.4));
             animation: float 6s ease-in-out infinite;
@@ -284,7 +289,7 @@
         }
 
         .btn {
-            padding: 1rem 2.5rem;
+            padding: 0.875rem 1.75rem;
             border: 2px solid var(--border-color);
             background: var(--secondary-bg);
             color: var(--text-primary);
@@ -296,7 +301,10 @@
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            min-width: 150px;
         }
 
         .btn::before {
@@ -338,7 +346,7 @@
 
         /* Features Section */
         .features {
-            padding: 8rem 0;
+            padding: 6rem 0;
             background: linear-gradient(180deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
             position: relative;
         }
@@ -360,14 +368,14 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
             position: relative;
             z-index: 1;
         }
 
         .section-title {
             text-align: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             background: linear-gradient(90deg, var(--text-primary) 0%, var(--glow-purple) 50%, var(--text-primary) 100%);
             -webkit-background-clip: text;
@@ -384,15 +392,15 @@
 
         .section-subtitle {
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             opacity: 0.8;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
@@ -433,15 +441,15 @@
         }
 
         .feature-icon {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 1.5rem;
             background: linear-gradient(135deg, rgba(42, 8, 69, 0.8) 0%, rgba(90, 42, 138, 0.8) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             box-shadow: 
                 0 10px 30px rgba(112, 48, 160, 0.3),
                 inset 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -455,7 +463,7 @@
         }
 
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 1rem;
             color: var(--text-primary);
             font-weight: 700;
@@ -469,7 +477,7 @@
 
         /* Game Preview Section */
         .game-preview {
-            padding: 8rem 0;
+            padding: 6rem 0;
             background: var(--primary-bg);
             position: relative;
             overflow: hidden;
@@ -495,20 +503,20 @@
         .preview-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 3rem;
             align-items: center;
             position: relative;
             z-index: 1;
         }
 
         .preview-text h2 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1.5rem;
             animation: glitch 4s ease-in-out infinite;
         }
 
         .preview-text p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
             line-height: 1.8;
@@ -539,7 +547,7 @@
 
         /* Stats Section */
         .stats {
-            padding: 6rem 0;
+            padding: 5rem 0;
             background: linear-gradient(180deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
             text-align: center;
             position: relative;
@@ -566,7 +574,7 @@
             background: rgba(26, 26, 26, 0.8);
             border: 1px solid rgba(128, 64, 192, 0.3);
             border-radius: 12px;
-            padding: 2.5rem;
+            padding: 2rem;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
@@ -578,7 +586,7 @@
         }
 
         .stat-number {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: bold;
             background: var(--gradient-purple);
             -webkit-background-clip: text;
@@ -595,14 +603,14 @@
 
         .stat-label {
             color: var(--text-secondary);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
 
         /* Video Section */
         .video-section {
-            padding: 8rem 0;
+            padding: 6rem 0;
             background: var(--primary-bg);
             text-align: center;
             position: relative;
@@ -664,7 +672,7 @@
             background-clip: padding-box, border-box;
             background-size: 100% 100%, 200% 100%;
             border-radius: 12px;
-            padding: 4rem 3rem;
+            padding: 3rem 2rem;
             animation: borderGlow 3s linear infinite;
         }
 
@@ -674,8 +682,8 @@
         }
 
         .btn-large {
-            font-size: 1.2rem;
-            padding: 1.5rem 3.5rem;
+            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
             font-weight: bold;
             letter-spacing: 0.1em;
             animation: pulseShadow 2s ease-in-out infinite;
@@ -707,14 +715,14 @@
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 3rem;
         }
 
         .footer-section h3 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
             font-weight: 700;
@@ -745,16 +753,22 @@
             color: var(--text-muted);
         }
 
-        /* Enhanced Mobile Menu */
+        /* Mobile Menu */
         .mobile-menu-btn {
             display: none;
             background: transparent;
             border: 2px solid var(--glow-purple);
             color: var(--text-primary);
-            padding: 0.7rem;
+            padding: 0.5rem;
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.3s ease;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: none;
+            align-items: center;
+            justify-content: center;
         }
 
         .mobile-menu-btn:hover {
@@ -762,7 +776,7 @@
             box-shadow: 0 0 20px rgba(128, 64, 192, 0.5);
         }
 
-        /* Scroll animations enhanced */
+        /* Scroll animations */
         .fade-in {
             opacity: 0;
             transform: translateY(40px);
@@ -836,11 +850,51 @@
         }
 
         .loader-text {
-            font-size: 2rem;
+            font-size: 1.5rem;
             animation: glitch 1s ease-in-out infinite;
+            text-align: center;
+            padding: 0 1rem;
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text {
+                order: 1;
+            }
+
+            .hero-image {
+                order: 2;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.4rem;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .preview-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .preview-image {
+                order: -1;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -860,48 +914,333 @@
             }
 
             .mobile-menu-btn {
-                display: block;
+                display: flex;
+            }
+
+            .hero {
+                padding-top: 70px;
+                min-height: auto;
+                padding-bottom: 30px;
             }
 
             .hero-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
+                padding: 0 1rem;
+                gap: 1.5rem;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .hero-text {
+                order: 1;
                 text-align: center;
             }
 
+            .hero-image {
+                order: 2;
+                margin-top: 1rem;
+            }
+
             .hero-text h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
+                margin-bottom: 0.8rem;
             }
 
             .hero-subtitle {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                padding: 0 1rem;
+            }
+
+            .hero-image img {
+                max-width: 280px;
+                width: 90%;
+            }
+
+            .cta-buttons {
+                width: 100%;
+                flex-direction: column;
+                gap: 0.75rem;
+                padding: 0 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 0.875rem 1.5rem;
+                font-size: 0.85rem;
             }
 
             .section-title {
+                font-size: 1.8rem;
+                padding: 0 1rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+                padding: 0 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .features {
+                padding: 4rem 0;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .feature-icon {
+                width: 70px;
+                height: 70px;
                 font-size: 2rem;
+            }
+
+            .feature-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .game-preview {
+                padding: 4rem 0;
+            }
+
+            .preview-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .preview-text p {
+                font-size: 1rem;
+            }
+
+            .stats {
+                padding: 4rem 0;
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
+                gap: 1rem;
             }
 
-            .btn {
-                padding: 1rem 2rem;
-                font-size: 0.9rem;
-            }
-
-            .btn-large {
-                font-size: 1rem;
-                padding: 1.2rem 2.5rem;
-            }
-
-            .feature-card {
-                padding: 2rem;
+            .stat-item {
+                padding: 1.5rem 1rem;
             }
 
             .stat-number {
-                font-size: 2.5rem;
+                font-size: 2rem;
+            }
+
+            .stat-label {
+                font-size: 0.9rem;
+            }
+
+            .video-section {
+                padding: 4rem 0;
+            }
+
+            .video-cta {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .btn-large {
+                width: 100%;
+                padding: 1rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .footer-section a:hover {
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img.logo-img {
+                height: 35px;
+            }
+
+            .hero {
+                padding-top: 60px;
+                padding-bottom: 20px;
+            }
+
+            .hero-content {
+                padding: 0 0.75rem;
+            }
+
+            .hero-text h1 {
+                font-size: 1.5rem;
+                line-height: 1.3;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .hero-description {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                padding: 0 0.5rem;
+            }
+
+            .hero-image img {
+                max-width: 240px;
+                width: 85%;
+            }
+
+            .cta-buttons {
+                padding: 0 0.5rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.8rem;
+                min-width: unset;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .feature-card h3 {
+                font-size: 1rem;
+            }
+
+            .feature-card p {
+                font-size: 0.9rem;
+            }
+
+            .preview-text h2 {
+                font-size: 1.4rem;
+            }
+
+            .preview-text p {
+                font-size: 0.9rem;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
+            .loader-text {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .nav-container {
+                padding: 0 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero-text h1 {
+                font-size: 1.3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .hero-image img {
+                max-width: 200px;
+                width: 80%;
+            }
+
+            .btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.75rem;
+                letter-spacing: 0.03em;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .hero {
+                min-height: auto;
+                padding: 60px 0 30px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .hero-text {
+                text-align: left;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-description {
+                font-size: 0.95rem;
+            }
+
+            .hero-image {
+                order: 0;
+            }
+
+            .hero-image img {
+                max-width: 300px;
+                max-height: 250px;
+                object-fit: contain;
+            }
+
+            .cta-buttons {
+                flex-direction: row;
+                justify-content: flex-start;
+                width: auto;
+            }
+
+            .btn {
+                width: auto;
+            }
+        }
+
+        /* Extra small devices in landscape */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero-text h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .hero-image img {
+                max-height: 200px;
             }
         }
 
@@ -982,7 +1321,7 @@
                 </div>
             </div>
             <div class="hero-image fade-in">
-                <img src="./images/mockup2.png" alt="DoomCasters Game Box" style="max-width: 500px;">
+                <img src="./images/mockup2.png" alt="DoomCasters Game Box">
             </div>
         </div>
     </section>
@@ -1263,7 +1602,10 @@
         // Particle effect
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
+            const isMobile = window.innerWidth <= 768;
+            const particleCount = isMobile ? 15 : 30;
+            
+            particlesContainer.innerHTML = ''; // Clear existing particles
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1277,6 +1619,15 @@
 
         createParticles();
 
+        // Recalculate on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                createParticles();
+            }, 250);
+        });
+
         // Parallax effect on mouse move - disable on touch devices
         if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
             document.addEventListener('mousemove', (e) => {
@@ -1287,22 +1638,6 @@
                     bg.style.transform = `translate(${mouseX * 20}px, ${mouseY * 20}px)`;
                 });
             });
-        }
-
-        // Optimize particle count for mobile
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const isMobile = window.innerWidth <= 768;
-            const particleCount = isMobile ? 15 : 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particlesContainer.appendChild(particle);
-            }
         }
     </script>
 </body>

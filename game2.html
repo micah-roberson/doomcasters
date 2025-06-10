@@ -5,6 +5,7 @@
   <title>Doomcasters - Intro</title>
   <link rel="icon" type="image/png" href="./images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * {
       margin: 0;
@@ -26,49 +27,53 @@
       align-items: center;
       flex-direction: column;
       text-align: center;
+      padding: 1rem;
     }
     .hidden { display: none; }
     .press-start {
       animation: blink 1.5s step-end infinite;
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
+      font-size: 1.6rem;
+      margin-top: 2rem;
       cursor: pointer;
     }
     @keyframes blink {
       50% { opacity: 0; }
     }
     .placeholder-img {
-      width: 300px;
-      height: 150px;
-      background-size: cover;
+      width: 80vw;
+      max-width: 500px;
+      height: auto;
+      aspect-ratio: 2 / 1;
+      background-size: contain;
+      background-repeat: no-repeat;
       background-position: center;
       margin: 1rem;
     }
     .placeholder2-img {
-      width: 300px;
-      height: 300px;
-      background-size: cover;
+      width: 70vw;
+      max-width: 400px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      background-size: contain;
+      background-repeat: no-repeat;
       background-position: center;
       margin: 1rem;
     }
     .typed-text {
-      font-size: 0.75rem;
+      font-size: 1rem;
       white-space: pre-wrap;
-      max-width: 80%;
-      line-height: 1.5;
+      max-width: 90%;
+      line-height: 1.8;
     }
     .character-grid {
       display: grid;
-      grid-template-columns: repeat(3, 100px);
-      grid-template-rows: repeat(3, 120px);
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5vw;
       margin-top: 2rem;
     }
     .character {
-      width: 100px;
-      height: 120px;
-
-      transition: transform 0.2s, border-color 0.2s;
+      width: 24vw;
+      max-width: 100px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -76,24 +81,31 @@
       cursor: pointer;
     }
     .character img {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
-      transition: filter 0.2s, border 0.2s;
+      transition: filter 0.2s;
     }
     .character-name {
-      font-size: 0.5rem;
-      margin-top: 2px;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      text-align: center;
     }
     .character:hover img {
       filter: brightness(1.3);
     }
-    .character.selected {
-      border-color: #f0f;
+    .character.selected img {
+      outline: 3px solid #f0f;
     }
     .final-screen .placeholder-img {
-      width: 350px;
-      height: 200px;
+      width: 85vw;
+      max-width: 500px;
+      height: auto;
+    }
+    @media (min-width: 768px) {
+      .press-start { font-size: 1.2rem; }
+      .character-name { font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -108,7 +120,7 @@
 
   <div id="title-screen" class="screen">
     <div class="placeholder-img" style="background-image: url('./images/doomcasterslogo.png');"></div>
-    <div style="font-size: 0.8rem;">A WIZARD CARD GAME</div>
+    <div style="font-size: 1rem;">A WIZARD CARD GAME</div>
     <div class="press-start">PRESS START</div>
   </div>
 
@@ -125,13 +137,13 @@
   </div>
 
   <div id="select-screen" class="screen hidden">
-    <div style="font-size: 0.8rem;">CHOOSE YOUR DOOMCASTER</div>
+    <div style="font-size: 1rem;">CHOOSE YOUR DOOMCASTER</div>
     <div class="character-grid" id="character-grid"></div>
   </div>
 
   <div id="final-screen" class="screen hidden final-screen">
     <div class="placeholder2-img" style="background-image: url('./images/glass.gif');"></div>
-    <div style="font-size: 0.6rem; margin-top: 1rem;">(Summoning your path...)</div>
+    <div style="font-size: 0.8rem; margin-top: 1rem;">(Summoning your path...)</div>
   </div>
 
   <script>
@@ -186,7 +198,6 @@
     }
 
     let started = false;
-
     const pressStartEl = document.querySelector('.press-start');
 
     function triggerStart() {
@@ -205,14 +216,14 @@
     pressStartEl.addEventListener('click', triggerStart);
 
     const characters = [
-      { name: "Bubble Wizard",       img: "./images/green.png" },
-      { name: "Air WIzard",      img: "./images/air.png" },
-      { name: "Quick Qizard",       img: "./images/quick.png" },
-      { name: "Wood Wiizard",      img: "./images/wood.png" },
-      { name: "Dr Wiz",     img: "./images/dr.png" }, // middle one
-      { name: "Heat Wizard",       img: "./images/heat.png" },
-      { name: "Metal Wizard",  img: "./images/metal.png" },
-      { name: "Flash Wiz",  img: "./images/flash.png" },
+      { name: "Bubble Wizard", img: "./images/green.png" },
+      { name: "Air WIzard", img: "./images/air.png" },
+      { name: "Quick Qizard", img: "./images/quick.png" },
+      { name: "Wood Wiizard", img: "./images/wood.png" },
+      { name: "Dr Wiz", img: "./images/dr.png" },
+      { name: "Heat Wizard", img: "./images/heat.png" },
+      { name: "Metal Wizard", img: "./images/metal.png" },
+      { name: "Flash Wiz", img: "./images/flash.png" },
       { name: "Clash", img: "./images/clash.png" }
     ];
 
