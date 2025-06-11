@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Doomcasters - Intro</title>
-  <link rel="icon" type="image/png" href="./images/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./images/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: black;
       color: white;
@@ -39,31 +35,22 @@
     @keyframes blink {
       50% { opacity: 0; }
     }
-    .placeholder-img {
+    .scene-img, .placeholder-img {
       width: 80vw;
       max-width: 500px;
-      height: auto;
       aspect-ratio: 2 / 1;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
       margin: 1rem;
     }
-    .placeholder2-img {
-      width: 70vw;
-      max-width: 400px;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      margin: 1rem;
-    }
     .typed-text {
-      font-size: 1rem;
+      font-size: 0.9rem;
       white-space: pre-wrap;
       max-width: 90%;
       line-height: 1.8;
+      margin-top: 1rem;
+      text-align: center;
     }
     .character-grid {
       display: grid;
@@ -76,13 +63,11 @@
       max-width: 100px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
       cursor: pointer;
     }
     .character img {
       width: 100%;
-      height: auto;
       aspect-ratio: 1 / 1;
       object-fit: cover;
       transition: filter 0.2s;
@@ -90,188 +75,355 @@
     .character-name {
       font-size: 0.8rem;
       margin-top: 4px;
-      text-align: center;
     }
-    .character:hover img {
-      filter: brightness(1.3);
+    .character:hover img { filter: brightness(1.3); }
+    .character.selected img { outline: 3px solid #fff; }
+    .character.glowing-red img {
+      animation: pulse-red 1s infinite alternate;
+      filter: drop-shadow(0 0 4px #f0f);
     }
-    .character.selected img {
-      outline: 3px solid #f0f;
+    @keyframes pulse-red {
+      0% { filter: drop-shadow(0 0 4px #f0f); }
+      100% { filter: drop-shadow(0 0 12px #f0f); }
     }
-    .final-screen .placeholder-img {
-      width: 85vw;
-      max-width: 500px;
-      height: auto;
+    .element-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
     }
-    @media (min-width: 768px) {
-      .press-start { font-size: 1.2rem; }
-      .character-name { font-size: 0.6rem; }
+    .element-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+    .element-gif {
+      width: 100px;
+      height: 100px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-bottom: 0.5rem;
+    }
+    .element-buttons button {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      padding: 0.5rem;
+      background: #222;
+      color: #fff;
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
+    .element-buttons button.used {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    #void-button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  padding: 0.6rem 1rem;
+  margin-top: 1rem;
+  background: #111;
+  color: #f0f;
+  border: 2px solid #f0f;
+  cursor: pointer;
+  animation: pulseVoid 1.5s infinite alternate;
+}
+
+@keyframes pulseVoid {
+  0% { transform: scale(1); box-shadow: 0 0 5px #f0f; }
+  100% { transform: scale(1.05); box-shadow: 0 0 20px #f0f; }
+}
+
+#void-gif {
+  width: 120px;
+  height: 120px;
+  margin-top: 1rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
   </style>
 </head>
 <body>
-  <audio id="intro-music" src="./music/intro.mp3" loop></audio>
-  <audio id="main-music" src="./music/oh-god.mp3" loop></audio>
-  <audio id="select-sound" src="./sounds/select.mp3"></audio>
-  <audio id="confirm-sound" src="./sounds/confirm.mp3"></audio>
-  <audio id="transition-sound" src="./sounds/transition.mp3"></audio>
-  <audio id="press-start-sound" src="./sounds/game-start-6104.mp3"></audio>
-  <audio id="eye-sound" src="./sounds/eye-sound.mp3"></audio>
 
-  <div id="title-screen" class="screen">
-    <div class="placeholder-img" style="background-image: url('./images/doomcasterslogo.png');"></div>
-    <div style="font-size: 1rem;">A WIZARD CARD GAME</div>
-    <div class="press-start">PRESS START</div>
+<!-- Audio Files -->
+<audio id="intro-music" src="./music/intro.mp3" loop></audio>
+<audio id="main-music" src="./music/oh-god.mp3" loop></audio>
+<audio id="element-music" src="./music/battle.mp3" loop></audio>
+<audio id="drwiz-sound" src="./sounds/drwiz.mp3"></audio>
+<audio id="wrong-choice-sound" src="./sounds/wrong.mp3"></audio>
+<audio id="fire-sound" src="./sounds/fire.mp3"></audio>
+<audio id="wind-sound" src="./sounds/wind.mp3"></audio>
+<audio id="water-sound" src="./sounds/water.mp3"></audio>
+<audio id="earth-sound" src="./sounds/earth.mp3"></audio>
+<audio id="boss-music" src="./music/boss.mp3" loop></audio>
+<audio id="click-sound" src="./sounds/click.mp3"></audio>
+<audio id="void-sound" src="./sounds/crash.mp3"></audio>
+
+<!-- Title Screen -->
+<div id="title-screen" class="screen">
+  <div class="placeholder-img" style="background-image: url('./images/doomcasterslogo.png');"></div>
+  <div class="press-start">PRESS START</div>
+</div>
+
+<!-- Scene After Press Start -->
+<div id="post-start-scene" class="screen hidden">
+  <div class="scene-img" style="background-image: url('./images/eclipse.gif');"></div>
+</div>
+
+<!-- Typing Screen -->
+<div id="intro-screen" class="screen hidden">
+  <div class="scene-img" style="background-image: url('./images/mawtalking.gif');"></div>
+  <div class="typed-text" id="typed-text"></div>
+</div>
+
+<!-- Eye Screen -->
+<div id="helmet-screen" class="screen hidden">
+  <div class="scene-img" style="background-image: url('./images/eye.gif');"></div>
+</div>
+
+<!-- Character Select -->
+<div id="select-screen" class="screen hidden">
+  <div style="font-size: 1rem;">CHOOSE YOUR DOOMCASTER</div>
+  <div class="character-grid" id="character-grid"></div>
+  <div id="maw-message" style="margin-top: 1rem; font-size: 0.7rem; color: #f00;"></div>
+</div>
+
+<!-- Element Buttons -->
+<!-- Final Screen -->
+<div id="final-screen" class="screen hidden">
+    <div id="central-element-gif" class="scene-img" style="background-image: url('./images/base1.gif');"></div>
+    <div class="element-buttons">
+      <button onclick="triggerElement(this, 'fire')"><img src="./images/fire-btn.png" alt="FIRE" /></button>
+      <button onclick="triggerElement(this, 'wind')"><img src="./images/wind-btn.png" alt="WIND" /></button>
+      <button onclick="triggerElement(this, 'water')"><img src="./images/water-btn.png" alt="WATER" /></button>
+      <button onclick="triggerElement(this, 'earth')"><img src="./images/earth-btn.png" alt="EARTH" /></button>
+    </div>
   </div>
+  
 
-  <div id="typing-screen" class="screen hidden">
-    <div class="typed-text" id="typed-text"></div>
+<!-- Boss Screen -->
+<!-- Boss Screen -->
+<div id="boss-screen" class="screen hidden">
+    <div class="scene-img" style="background-image: url('./images/summon.gif');"></div>
+    <div id="void-gif" class="element-gif" style="background-image: url('./images/void-idle.gif'); display: block;"></div>
+    <!-- Image-based VOID button -->
+<button id="void-button" style="margin-top: 1rem;">
+    <img id="void-button-img" src="./images/void-btn.png" alt="VOID" style="width: 120px; height: auto;" />
+  </button>
+  
   </div>
+  
 
-  <div id="animation-screen" class="screen hidden">
-    <div class="placeholder-img" style="background-image: url('./images/eclipse.gif');"></div>
+  <!-- VOID Screen (Full-Screen Scene after pressing VOID) -->
+<div id="void-screen" class="screen hidden">
+    <div class="scene-img" style="background-image: url('./images/monster-boss.gif');"></div>
+    <div style="font-size: 0.8rem; margin-top: 1rem;">THE VOID CONSUMES ALL...</div>
   </div>
+  
 
-  <div id="helmet-screen" class="screen hidden">
-    <div class="placeholder2-img" style="background-image: url('./images/eye.gif');"></div>
-  </div>
+<!-- Final Final -->
+<div id="final-final-screen" class="screen hidden">
+  <div class="scene-img" style="background-image: url('./images/worlddestroy.gif');"></div>
+  <div style="font-size: 0.8rem; margin-top: 1rem;">(Your fate is sealed...)</div>
+</div>
+</div>
 
-  <div id="select-screen" class="screen hidden">
-    <div style="font-size: 1rem;">CHOOSE YOUR DOOMCASTER</div>
-    <div class="character-grid" id="character-grid"></div>
-  </div>
-
-  <div id="final-screen" class="screen hidden final-screen">
-    <div class="placeholder2-img" style="background-image: url('./images/glass.gif');"></div>
-    <div style="font-size: 0.8rem; margin-top: 1rem;">(Summoning your path...)</div>
-  </div>
-
-  <script>
-    const narrative = [
-      "I GROW HUNGRIER BY THE SECOND...",
-      "ALL MUST BECOME ONE WITH THE EMPTINESS.",
-      "GIVE AWAY YOUR MORALS. YOU ARE A WIZARD OF DESTRUCTION.",
-      "LEAVE NO STONE UNTURNED, NO PRECIOUS LIFE LEFT TO BREATHE.",
-      "ALL MUST BECOME ONE WITH THE EMPTINESS."
-    ];
-
+<script>
+    // === DEV CONFIG ===
+    const DEV = {
+      postStartDelay: 3000,
+      textToSelectDelay: 2000,
+      afterAllElementsDelay: 1000,
+      elementCastDuration: 3000, // ⬅️ Customizable duration for element GIFs
+      voidGifDuration: 2000,
+      voidScreenDuration: 4000,
+      finalFinalDuration: 4000
+    };
+  
+    // === AUDIO SETUP ===
+    const introMusic = document.getElementById('intro-music');
+    const mainMusic = document.getElementById('main-music');
+    const battleMusic = document.getElementById('element-music');
+    const bossMusic = document.getElementById('boss-music');
+    const clickSound = document.getElementById('click-sound');
+    const voidSound = document.getElementById('void-sound');
+  
+    // === AUDIO CONTROL ===
+    function stopAllMusic() {
+      [introMusic, mainMusic, battleMusic, bossMusic].forEach(m => {
+        m.pause();
+        m.currentTime = 0;
+      });
+    }
+    function playIntroMusic() { stopAllMusic(); introMusic.play(); }
+    function playMainMusic() { stopAllMusic(); mainMusic.play(); }
+    function playBattleMusic() { stopAllMusic(); battleMusic.play(); }
+  
+    // === ON LOAD ===
+    window.addEventListener('load', () => {
+      playIntroMusic();
+    });
+  
+    // === TEXT TYPING ===
     function typeText(lines, el, cb) {
-      let lineIdx = 0, charIdx = 0;
-      function step() {
-        if (lineIdx < lines.length) {
-          if (charIdx <= lines[lineIdx].length) {
-            el.textContent = lines.slice(0, lineIdx).join("\n\n") + "\n\n" + lines[lineIdx].substr(0, charIdx);
+      let index = 0;
+      function typeLine() {
+        if (index >= lines.length) return cb();
+        let line = lines[index];
+        let charIdx = 0;
+        function step() {
+          if (charIdx <= line.length) {
+            el.textContent = lines.slice(0, index).join('\n\n') + '\n\n' + line.slice(0, charIdx);
             charIdx++;
             setTimeout(step, 30);
           } else {
-            lineIdx++;
-            charIdx = 0;
-            setTimeout(step, 500);
+            index++;
+            setTimeout(typeLine, 1000);
           }
-        } else {
-          cb();
         }
+        step();
       }
-      step();
+      typeLine();
     }
-
+  
+    // === SCREEN CONTROL ===
     function showScreen(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
-      document.getElementById('transition-sound').play().catch(() => {});
     }
-
-    function beginIntro() {
-      showScreen('typing-screen');
-      typeText(narrative, document.getElementById('typed-text'), () => {
-        setTimeout(() => {
-          showScreen('animation-screen');
-          setTimeout(() => {
-            showScreen('helmet-screen');
-            setTimeout(() => {
-              document.getElementById('eye-sound').play().catch(() => {});
-              showScreen('select-screen');
-            }, 3000);
-          }, 4000);
-        }, 1500);
-      });
-    }
-
-    let started = false;
-    const pressStartEl = document.querySelector('.press-start');
-
-    function triggerStart() {
-      if (!started) {
-        started = true;
-        document.getElementById('intro-music').pause();
-        document.getElementById('main-music').play().catch(() => {});
-        document.getElementById('confirm-sound').play().catch(() => {});
-        document.getElementById('press-start-sound').play().catch(() => {});
-        beginIntro();
-      }
-    }
-
-    document.body.addEventListener('keydown', triggerStart);
-    document.body.addEventListener('click', triggerStart);
-    pressStartEl.addEventListener('click', triggerStart);
-
-    const characters = [
-      { name: "Bubble Wizard", img: "./images/green.png" },
-      { name: "Air WIzard", img: "./images/air.png" },
-      { name: "Quick Qizard", img: "./images/quick.png" },
-      { name: "Wood Wiizard", img: "./images/wood.png" },
-      { name: "Dr Wiz", img: "./images/dr.png" },
-      { name: "Heat Wizard", img: "./images/heat.png" },
-      { name: "Metal Wizard", img: "./images/metal.png" },
-      { name: "Flash Wiz", img: "./images/flash.png" },
-      { name: "Clash", img: "./images/clash.png" }
+  
+    // === PRESS START BUTTON ===
+    document.querySelector('.press-start').addEventListener('click', () => {
+      clickSound.play();
+      playMainMusic();
+      showScreen('post-start-scene');
+  
+      setTimeout(() => {
+        showScreen('intro-screen');
+        typeText(narrative, document.getElementById('typed-text'), () => {
+          setTimeout(() => showScreen('select-screen'), DEV.textToSelectDelay);
+        });
+      }, DEV.postStartDelay);
+    });
+  
+    // === NARRATIVE ===
+    const narrative = [
+      "MASTER GROWS HUNGRIER BY THE SECOND...",
+      "GIVE AWAY YOUR MORALS.",
+      "LEAVE NO STONE UNTURNED, NO PRECIOUS LIFE LEFT TO BREATHE.",
+      "ALL MUST BECOME ONE WITH THE EMPTINESS."
     ];
-
+  
+    // === CHARACTER SELECT ===
+    const characters = [
+      { name: "Good Wizard", img: "./images/green.png" },
+      { name: "Nice Wizard", img: "./images/air.png" },
+      { name: "Kind Wizard", img: "./images/quick.png" },
+      { name: "Dr Wizard", img: "./images/dr.png" },
+      { name: "EVIL WIZARD", img: "./images/wood.png" },
+      { name: "Empathetic Wizard", img: "./images/heat.png" },
+      { name: "Curtious Wizard", img: "./images/metal.png" },
+      { name: "Delightful Wizard", img: "./images/flash.png" },
+      { name: "Benevolent Wizard", img: "./images/clash.png" }
+    ];
+  
     const grid = document.getElementById('character-grid');
+    const mawMessage = document.getElementById('maw-message');
     let selectedDiv = null;
-
-    characters.forEach(char => {
+  
+    characters.forEach((char, idx) => {
       const div = document.createElement('div');
       div.className = 'character';
-
-      const img = document.createElement('img');
-      img.src = char.img;
-      img.alt = char.name;
-
-      const label = document.createElement('div');
-      label.className = 'character-name';
-      label.textContent = char.name;
-
-      div.appendChild(img);
-      div.appendChild(label);
-
+      if (idx === 4) div.classList.add('glowing-red');
+      div.innerHTML = `<img src="${char.img}" alt="${char.name}"><div class="character-name">${char.name}</div>`;
       div.addEventListener('click', () => {
-        document.getElementById('confirm-sound').play().catch(() => {});
+        clickSound.play();
         if (selectedDiv) selectedDiv.classList.remove('selected');
         div.classList.add('selected');
         selectedDiv = div;
-
-        setTimeout(() => {
+  
+        if (idx === 4) {
+          document.getElementById('drwiz-sound').play();
+          playBattleMusic();
           showScreen('final-screen');
-          setTimeout(() => {
-            window.location.href = 'https://doomcasters.com';
-          }, 3000);
-        }, 500);
+        } else {
+          document.getElementById('wrong-choice-sound').play();
+          mawMessage.textContent = "Maw's power is... convincing.";
+        }
       });
-
-      div.addEventListener('mouseenter', () => {
-        document.getElementById('select-sound').play().catch(() => {});
-      });
-
       grid.appendChild(div);
     });
-
-    window.onload = () => {
-      document.getElementById('intro-music').play().catch(() => {});
-      setTimeout(() => {
-        document.getElementById('press-start-sound').play().catch(() => {});
-      }, 500);
+  
+    // === ELEMENT BUTTON LOGIC WITH CENTRAL GIF ===
+    const elementMap = {
+      fire: { action: 'fire.gif', sound: 'fire-sound' },
+      wind: { action: 'wind.gif', sound: 'wind-sound' },
+      water: { action: 'water.gif', sound: 'water-sound' },
+      earth: { action: 'earth.gif', sound: 'earth-sound' }
     };
+  
+    const baseGifs = ['base1.gif', 'base2.gif', 'base3.gif', 'base4.gif'];
+    let baseIndex = 0;
+    let activated = new Set();
+  
+    function triggerElement(button, type) {
+      if (activated.has(type)) return;
+      clickSound.play();
+  
+      const sound = document.getElementById(elementMap[type].sound);
+      if (sound) sound.play();
+  
+      const centralGif = document.getElementById('central-element-gif');
+      centralGif.style.backgroundImage = `url('./images/${elementMap[type].action}')`;
+  
+      button.classList.add('used');
+      activated.add(type);
+  
+      setTimeout(() => {
+        baseIndex = (baseIndex + 1) % baseGifs.length;
+        centralGif.style.backgroundImage = `url('./images/${baseGifs[baseIndex]}')`;
+  
+        if (activated.size === 4) {
+          setTimeout(() => {
+            stopAllMusic();
+            showScreen('boss-screen');
+            bossMusic.play();
+          }, DEV.afterAllElementsDelay);
+        }
+      }, DEV.elementCastDuration);
+    }
+  
+    // === VOID BUTTON ===
+    let voidTriggered = false;
+  
+    document.getElementById('void-button').addEventListener('click', () => {
+      if (voidTriggered) return;
+      voidTriggered = true;
+  
+      clickSound.play();
+      if (voidSound) voidSound.play();
+  
+      const voidGif = document.getElementById('void-gif');
+      voidGif.style.display = 'block';
+      voidGif.style.backgroundImage = "url('./images/void-trigger.gif')";
+  
+      setTimeout(() => {
+        showScreen('void-screen');
+  
+        setTimeout(() => {
+          showScreen('final-final-screen');
+  
+          setTimeout(() => {
+            window.location.href = "https://doomcasters.com";
+          }, DEV.finalFinalDuration);
+  
+        }, DEV.voidScreenDuration);
+  
+      }, DEV.voidGifDuration);
+    });
   </script>
-</body>
-</html>
+  
