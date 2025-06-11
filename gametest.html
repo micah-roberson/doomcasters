@@ -195,12 +195,12 @@
 <!-- Element Buttons -->
 <!-- Final Screen -->
 <div id="final-screen" class="screen hidden">
-    <div id="central-element-gif" class="scene-img" style="background-image: url('./images/base1.gif');"></div>
+    <div id="central-element-gif" class="scene-img" style="background-image: url('./images/fight.gif');"></div>
     <div class="element-buttons">
-      <button onclick="triggerElement(this, 'fire')"><img src="./images/fire-btn.png" alt="FIRE" /></button>
-      <button onclick="triggerElement(this, 'wind')"><img src="./images/wind-btn.png" alt="WIND" /></button>
-      <button onclick="triggerElement(this, 'water')"><img src="./images/water-btn.png" alt="WATER" /></button>
-      <button onclick="triggerElement(this, 'earth')"><img src="./images/earth-btn.png" alt="EARTH" /></button>
+      <button onclick="triggerElement(this, 'fire')"><img src="./images/firebutton.png" alt="FIRE" /></button>
+      <button onclick="triggerElement(this, 'wind')"><img src="./images/windbutton.png" alt="WIND" /></button>
+      <button onclick="triggerElement(this, 'water')"><img src="./images/waterbutton.png" alt="WATER" /></button>
+      <button onclick="triggerElement(this, 'earth')"><img src="./images/earthbutton.png" alt="EARTH" /></button>
     </div>
   </div>
   
@@ -212,7 +212,7 @@
     <div id="void-gif" class="element-gif" style="background-image: url('./images/void-idle.gif'); display: block;"></div>
     <!-- Image-based VOID button -->
 <button id="void-button" style="margin-top: 1rem;">
-    <img id="void-button-img" src="./images/void-btn.png" alt="VOID" style="width: 120px; height: auto;" />
+    <img id="void-button-img" src="./images/voidbutton.png" alt="VOID" style="width: 120px; height: auto;" />
   </button>
   
   </div>
@@ -220,14 +220,14 @@
 
   <!-- VOID Screen (Full-Screen Scene after pressing VOID) -->
 <div id="void-screen" class="screen hidden">
-    <div class="scene-img" style="background-image: url('./images/monster-boss.gif');"></div>
+    <div class="scene-img" style="background-image: url('./images/planet\ consumed.gif');"></div>
     <div style="font-size: 0.8rem; margin-top: 1rem;">THE VOID CONSUMES ALL...</div>
   </div>
   
 
 <!-- Final Final -->
 <div id="final-final-screen" class="screen hidden">
-  <div class="scene-img" style="background-image: url('./images/worlddestroy.gif');"></div>
+  <div class="scene-img" style="background-image: url('./images/monster-boss.gif');"></div>
   <div style="font-size: 0.8rem; margin-top: 1rem;">(Your fate is sealed...)</div>
 </div>
 </div>
@@ -366,7 +366,7 @@
       earth: { action: 'earth.gif', sound: 'earth-sound' }
     };
   
-    const baseGifs = ['base1.gif', 'base2.gif', 'base3.gif', 'base4.gif'];
+    const baseGifs = ['fight.gif', 'fight.gif', 'fight.gif', 'fight.gif'];
     let baseIndex = 0;
     let activated = new Set();
   
